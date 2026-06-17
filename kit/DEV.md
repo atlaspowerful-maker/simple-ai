@@ -46,6 +46,7 @@ Pas de blocage dur : tu n'attends pas que le PO réponde pour continuer à avanc
 
 ## 5. Garde-fous DEV
 
+- **Git** : branche par session, worktree dédié (`bin/dev`), merge **validé par l'humain** — tout le protocole dans `WORKFLOW.md`.
 - **Branche par session** + relecture du diff avant de fusionner (secrets, cohérence, restes de debug).
 - **Doc à jour dans la même tâche** : ce que tu apprends/changes se note, sinon c'est perdu.
 - **Édition atomique** du backlog (le PO écrit dans le même fichier).

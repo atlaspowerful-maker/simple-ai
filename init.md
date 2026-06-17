@@ -17,6 +17,7 @@ simple-ai/
 ├── DEV.md           ← kit/DEV.md        (playbook casquette DEV)
 ├── CONVENTION.md    ← kit/CONVENTION.md (le contrat de format)
 ├── CONFIG.md        ← kit/CONFIG.md     (où vit le backlog : local ou online)
+├── WORKFLOW.md      ← kit/WORKFLOW.md   (git : sessions, branches, merge, qui valide)
 ├── AGENTS.md        ← kit/AGENTS.md     (point d'entrée Codex & co)
 ├── build.py         ← kit/build.py      (générateur du viewer)
 ├── backlog.md       ← kit/backlog.md    (gabarit vide, à personnaliser)

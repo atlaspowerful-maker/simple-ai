@@ -10,6 +10,10 @@ lisibles, un viewer HTML statique, **zéro serveur** qui tourne.
 
 ## Les deux casquettes
 
+Tu ouvres **deux sessions en parallèle** et tu **pilotes les deux toi-même** — tu n'es pas un maillon
+d'une chaîne séquentielle, tu parles aux deux quand tu veux. Elles ne communiquent **pas** directement
+entre elles : leur **seul** point de rendez-vous est `backlog.md`.
+
 - **Session PO** — *ordonne, structure, rédige*. Transforme les demandes (floues) en tickets clairs,
   priorise, dédup, et traite les remarques que lui renvoie le DEV. → [`kit/PO.md`](kit/PO.md)
 - **Session DEV** — *dépile les tickets par priorité et les réalise*. Ne fonce pas en aveugle :
@@ -17,12 +21,23 @@ lisibles, un viewer HTML statique, **zéro serveur** qui tourne.
   au PO. → [`kit/DEV.md`](kit/DEV.md)
 
 ```
-   Humain ──demande──▶  Session PO  ──tickets priorisés──▶  backlog.md
-                            ▲                                   │
-                            └────remarque @dev-note────┐        ▼
-                                                       └─ Session DEV ──dépile──▶ réalise
-                                                          └─ régénère backlog.html à chaque changement
+                    Humain  ── pilote les 2 sessions en parallèle ──┐
+                       │                                            │
+                  parle au PO                                 parle au DEV
+                       ▼                                            ▼
+                  Session PO                                   Session DEV
+            cadre · priorise · dédup                    dépile · challenge · réalise
+                       │                                            │
+                       └──────────────▶  backlog.md  ◀──────────────┘
+                                       canal partagé UNIQUE
+                                       (viewer backlog.html régénéré à chaque maj)
+                                              ▲
+                            remarque DEV → PO : ticket [blocked] + @dev-note
+                            (le PO la lit dans le backlog et arbitre)
 ```
+
+> Les deux sessions tournent **chacune dans son worktree git** (`bin/po` / `bin/dev`) pour ne pas se
+> contaminer, et se coordonnent **uniquement** par le backlog. Détail : [`kit/WORKFLOW.md`](kit/WORKFLOW.md).
 
 ## Installation
 
@@ -42,6 +57,7 @@ Dans les deux cas, `simple-ai/` contient :
 | `simple-ai/DEV.md` | Playbook casquette **DEV** | l'humain (rare) |
 | `simple-ai/CONVENTION.md` | **Le contrat** : format de ticket, prio, états, remarque DEV→PO, édition atomique | l'humain (rare) |
 | `simple-ai/CONFIG.md` | **Où vit le backlog** : `local` (dans le repo) ou `online` (distant/partagé) | l'humain (à l'install) |
+| `simple-ai/WORKFLOW.md` | **Git** : sessions concurrentes, branches, merge requests, qui valide | l'humain (rare) |
 | `simple-ai/AGENTS.md` | Point d'entrée pour Codex & agents lisant `AGENTS.md` | l'humain (rare) |
 | `simple-ai/backlog.md` | **Le backlog unique** — canal de coordination PO ⇄ DEV | PO + DEV (à chaud) |
 | `simple-ai/build.py` | Générateur `backlog.md` → `backlog.html` | jamais (outil) |
