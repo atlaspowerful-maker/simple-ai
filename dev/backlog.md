@@ -23,11 +23,32 @@
 [P2][done] build.py accepte un chemin de backlog — rendre dev/backlog.md sans dupliquer le générateur ~1h @epic:core
 
 [P3][done] Routine de calibration des estimations (SA11) — lit les done (~Nh + =Nh) via build.parse, médiane des ratios réel/estimé = facteur suggéré ; mesure et suggère, l'humain décide ~3h =2h @epic:core
-[P3][todo] Clarifier WORKFLOW §4 : décision de merge vs exécution — le DEV ne sait pas qu'il peut enchaîner merge+cleanup après le go ~1h @epic:dx
+[P1][todo] Run réel sur un projet jetable + journal de frictions — seule façon de savoir si la boucle est VRAIMENT plus simple que le baseline ~5h @epic:dx
+  > Problème : aucune preuve. dev/backlog.md est rempli rétroactivement (presque tout en done). On construit à l'aveugle.
+  > Cible : mener un mini-projet jetable (non simple-ai, ~5-8 tickets, assez réel pour des remarques DEV→PO, assez petit pour finir) de zéro à un livrable minimal, via la boucle simple-ai.
+  > Scope : installer le kit via init.md TEL QUEL (tester l'onboarding réel, noter chaque friction). Dérouler PO crée → DEV dépile → ≥1 remarque DEV→PO → estimé/réel loggés. Produire dev/RUNLOG.md : à chaque étape, fluide / a traîné / a manqué.
+  > Sortie : frictions converties en nouveaux tickets backlog (c'est CE run qui dira ce qui manque vraiment).
+  > Décidé (PO) : run en 2-sessions (mode existant ; le solo n'est pas encore livré) ; B passe AVANT A pour révéler les frictions qui justifient le solo ; on garde dev/RUNLOG.md seul, le projet jetable reste hors repo.
+  > Preuve : un livrable jetable réellement atteint + dev/RUNLOG.md daté + au moins 3 frictions transformées en tickets.
+[P1][todo] Mode solo par défaut — une session, deux casquettes, sans worktree : le mode 2-sessions devient une montée en puissance, pas le point d'entrée ~3h @epic:dx
+  > Problème : aujourd'hui tout (README, bin/, WORKFLOW) impose 2 sessions + 2 worktrees + pilotage parallèle dès le départ → plus lourd que « j'ouvre une session Claude ». Menace directe l'objectif « simple ».
+  > Cible : une voie d'entrée où UNE session porte PO puis DEV tour à tour, sur le backlog local, dans la racine, zéro worktree. On monte vers 2-sessions seulement quand le parallélisme est réellement utile.
+  > Scope (rester simple) : surtout de la DOC. README présente le solo comme DÉFAUT (décision actée) ; CLAUDE.md + AGENTS.md disent comment une même session bascule de casquette (annoncer le changement, relire le backlog avant d'écrire). PAS de script bin/solo (décision actée : solo = on lance sa session IA à la racine, rien à exécuter).
+  > Inclut (fusion du candidat « durcir init.md ») : étape 4 de init.md (brancher l'agent) est le pivot « simple » mais reste un soft, et le chmod +x est un piège → la durcir fait partie de cette story.
+  > Critère de bascule à documenter : quand passer solo → 2-sessions (taille, besoin réel de parallélisme).
+  > Preuve : un nouvel utilisateur démarre et produit un ticket réalisé SANS créer de worktree, en suivant uniquement le README.
+[P2][todo] Tests sur build.parse() — calibrate.py (SA11) en dépend déjà en prod et le repo n'a AUCUN test ; le parser a une extraction fin-de-ligne subtile (epic → =Nh → ~Nh) sans filet ~2h @epic:core
+[P2][todo] Clarifier WORKFLOW §4 : décision de merge vs exécution — le DEV ne sait pas qu'il peut enchaîner merge+cleanup après le go ~1h @epic:dx
   > Friction dogfood remontée pendant SA11. §4 dit « l'humain valide/merge », ce qui se lit comme « le DEV ne touche jamais au merge ».
-  > Or la même section autorise déjà à déléguer une fois le go donné. Reco : distinguer explicitement (a) la DÉCISION de merger = toujours humaine
-  > de (b) l'EXÉCUTION mécanique (merge --no-ff + cleanup worktree/branche) = délégable au DEV dès le go reçu. PO : arbitre la prio et reformule §4.
-[P3][blocked] CLI simple-ai init (npx/uvx) — remplacer le prompt /init par une vraie commande qui pose le dossier simple-ai/ ~5h @epic:dx
-  > @dev-note: décision produit avant exécution — quel runtime ? npx (Node) ou uvx (Python) ? Le framework est 100 % Python (build.py, calibrate.py), uvx serait cohérent et sans dépendance Node ; npx touche plus de monde mais ajoute un écosystème. Le distrib/nom de package en dépend. Tranche avant que je code.
+  > Décidé (humain, confirmé) : distinguer explicitement (a) la DÉCISION de merger = TOUJOURS humaine, de (b) l'EXÉCUTION mécanique
+  > (merge --no-ff + cleanup worktree/branche) = DÉLÉGABLE au DEV dès le go reçu. Plus de « reco » à trancher : c'est la doctrine à inscrire.
+  > Travail (DEV) : reformuler kit/WORKFLOW.md §4 selon (a)/(b). C'est le livrable public → relire avec ce regard (générique, sans réf interne).
+  > Prio P2 (PO) : friction confirmée + récurrente, ~1h, et elle frappera le run B (P1, 2-sessions) si §4 reste ambigu → à lever tôt, pas à enterrer en P3.
+  > Preuve : §4 lue par un nouveau DEV → il sait qu'il peut exécuter merge+cleanup seul après le go, sans re-demander.
+[P3][todo] CLI simple-ai init (uvx, Python) — remplacer le prompt /init par une vraie commande qui pose le dossier simple-ai/ ~5h @epic:dx
+  > Décidé (PO) : runtime = uvx. Cohérent avec un framework 100 % Python (build.py, calibrate.py), zéro dépendance Node. Pas de variante npx (garde-fou simple). Le nom de package / distrib suit ce choix.
+[P3][todo] build.py dupliqué dans example/ a dérivé — copie antérieure au support du chemin (pourtant done) ; viole la source unique kit/ ~1h @epic:dx
+  > Confirmé divergent (diff kit/build.py ↔ example/demo-todo/simple-ai/build.py : l'exemple est l'ancienne version sans argument de chemin).
+  > Décision de fond (PO/DEV) : snapshot figé assumé / lien / génération au release. Reco : régénérer la copie depuis kit/ (pas de copie éditée à la main) pour préserver la source unique.
 [wishlist][todo] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h @epic:core
 [wishlist][todo] Publier le viewer en ligne en une commande — exploiter le hook publish de CONFIG.md ~2h @epic:dx
