@@ -19,11 +19,13 @@ PO et la session DEV. Pas de base de données, pas de serveur : un fichier Markd
 - **`Titre court`** — l'action, à l'impératif.
 - **`— pourquoi`** — la justification + assez de contexte pour être **fait sans la conversation d'origine**.
   Un ticket doit être actionnable à froid. Si ça ne tient pas sur la ligne, ajoute un bloc contexte (§6).
-- **`~Nh`** — estimation d'**effort humain** indicatif (proxy de priorisation), facultatif.
+- **`~Nh`** — **estimé** : l'estimation d'effort donnée par **le créateur** du ticket (proxy de priorisation), facultative.
+- **`=Nh`** — **réel** : le temps **réellement passé**, loggé par **l'exécutant à la clôture** (voir §10), facultatif.
 
-Exemple :
+Exemple (à la création, puis une fois fait) :
 ```
-[P1][todo] Ajouter le filtre par date sur la liste — l'utilisateur ne peut pas retrouver une entrée ancienne ~2h
+[P1][todo] Ajouter le filtre par date sur la liste — l'utilisateur ne retrouve pas une entrée ancienne ~2h
+[P1][done] Ajouter le filtre par date sur la liste — l'utilisateur ne retrouve pas une entrée ancienne ~2h =3h
 ```
 
 ## 3. Échelle de priorité (ordonnée)
@@ -96,3 +98,19 @@ python3 simple-ai/build.py
 
 → régénère `simple-ai/backlog.html`. C'est une consigne portée par `PO.md` et `DEV.md`.
 Pas de serveur qui tourne : le viewer est un fichier statique qu'on ouvre dans un navigateur.
+
+## 10. Estimation : estimé (`~Nh`) + réel (`=Nh`)
+
+Système d'estimation **volontairement minimal**, en deux temps — aucune méthode imposée :
+
+1. **À la création** — le créateur du ticket (PO ou quiconque) pose un **estimé** `~Nh` selon **ses propres critères**.
+2. **À la clôture** — l'exécutant (DEV ou quiconque) logge le **réel** `=Nh` en fin de ligne, au moment de passer `done`.
+
+```
+[P2][done] Refondre l'écran de connexion — taux d'abandon élevé ~5h =7h
+```
+
+Le viewer affiche les deux et signale l'**écart** (réel vs estimé). On ne cherche pas l'estimation
+parfaite du premier coup : on **mesure l'écart**. Plus tard, une routine de calibration (story SA11)
+exploite l'historique des écarts pour affiner la méthode — sans alourdir le système.
+

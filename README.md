@@ -62,7 +62,14 @@ python3 simple-ai/build.py        # → simple-ai/backlog.html
 ```
 
 Ouvre `simple-ai/backlog.html` dans un navigateur : tickets groupés par epic, badges prio/état,
-contexte dépliable, remarques `@dev-note` mises en évidence, filtres cliquables. Statique, zéro dépendance.
+**estimé `~Nh` / réel `=Nh` + écart** (cf. ci-dessous), contexte dépliable, remarques `@dev-note`
+mises en évidence, filtres cliquables. Statique, zéro dépendance.
+
+## Estimation : estimé + réel
+
+Système minimal en deux temps (détail : [`kit/CONVENTION.md`](kit/CONVENTION.md) §10) : le créateur pose
+un **estimé** `~Nh`, l'exécutant logge le **réel** `=Nh` à la clôture. Le viewer affiche l'**écart**
+(réel − estimé). On ne vise pas l'estimation parfaite — on mesure l'écart pour s'auto-corriger (calibration : SA11).
 
 ## Mode TokenBurn (optionnel)
 

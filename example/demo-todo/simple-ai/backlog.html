@@ -36,7 +36,13 @@
   .state-todo { background:var(--todo); } .state-progress { background:var(--progress); }
   .state-blocked { background:var(--blocked); } .state-done { background:var(--done); color:#062b13; }
   .title { font-weight:600; }
-  .effort { margin-left:auto; color:var(--dim); font-size:12px; }
+  .metrics { margin-left:auto; display:flex; gap:6px; align-items:center; font-size:12px; white-space:nowrap; }
+  .effort { color:var(--dim); }
+  .real { color:var(--txt); font-weight:600; }
+  .ecart { padding:1px 6px; border-radius:5px; font-weight:700; }
+  .ecart.over { background:rgba(239,68,68,.18); color:#fca5a5; }
+  .ecart.under { background:rgba(34,197,94,.18); color:#86efac; }
+  .ecart.spot { background:rgba(107,114,128,.25); color:var(--dim); }
   .body { margin-top:6px; }
   .why { color:var(--dim); font-size:14px; }
   .ctx { margin-top:8px; border-left:2px solid var(--line); padding-left:10px; }
@@ -50,23 +56,23 @@
 <body>
 <header>
   <h1>📋 Backlog — 7 ticket(s)</h1>
-  <div class="meta">Généré le 2026-06-17 19:23 UTC · <a href="PROJECT.md">PROJECT.md</a> · source : <code>backlog.md</code></div>
+  <div class="meta">Généré le 2026-06-17 19:34 UTC · <a href="PROJECT.md">PROJECT.md</a> · source : <code>backlog.md</code></div>
 </header>
 <div class="filters">
-  <button class="chip f-state" data-f="todo">todo <b>4</b></button><button class="chip f-state" data-f="progress">progress <b>1</b></button><button class="chip f-state" data-f="blocked">blocked <b>1</b></button><button class="chip f-state" data-f="done">done <b>1</b></button>
+  <button class="chip f-state" data-f="todo">todo <b>3</b></button><button class="chip f-state" data-f="progress">progress <b>1</b></button><button class="chip f-state" data-f="blocked">blocked <b>1</b></button><button class="chip f-state" data-f="done">done <b>2</b></button>
   <span style="width:12px"></span>
   <button class="chip f-prio" data-f="P0">P0</button><button class="chip f-prio" data-f="P1">P1</button><button class="chip f-prio" data-f="P2">P2</button><button class="chip f-prio" data-f="P3">P3</button><button class="chip f-prio" data-f="wishlist">wishlist</button>
 </div>
 <main id="list">
 <h2 class="epic">Fonctions de base de la liste <span class="epic-id">@epic:core</span></h2>
-<div class="card" data-state="done" data-prio="P0"><div class="head"><span class="badge prio prio-P0">P0</span><span class="badge state state-done">done</span><span class="title">Afficher la liste des tâches</span><span class="effort">~2h</span></div><div class="body"><span class="why">sans ça l&#x27;app ne sert à rien</span></div></div>
-<div class="card" data-state="todo" data-prio="P1"><div class="head"><span class="badge prio prio-P1">P1</span><span class="badge state state-todo">todo</span><span class="title">Cocher une tâche comme faite</span><span class="effort">~1h</span></div><div class="body"><span class="why">feedback de complétion, base de l&#x27;usage quotidien</span></div></div>
-<div class="card" data-state="progress" data-prio="P1"><div class="head"><span class="badge prio prio-P1">P1</span><span class="badge state state-progress">progress</span><span class="title">Ajouter une tâche</span><span class="effort">~1h</span></div><div class="body"><span class="why">l&#x27;utilisateur doit pouvoir créer une entrée</span></div></div>
-<div class="card" data-state="todo" data-prio="P2"><div class="head"><span class="badge prio prio-P2">P2</span><span class="badge state state-todo">todo</span><span class="title">Filtrer par statut (toutes / actives / faites)</span><span class="effort">~2h</span></div><div class="body"><span class="why">confort sur les longues listes</span></div></div>
+<div class="card" data-state="done" data-prio="P0"><div class="head"><span class="badge prio prio-P0">P0</span><span class="badge state state-done">done</span><span class="title">Afficher la liste des tâches</span><span class="metrics"><span class="effort" title="estimé">~2h</span><span class="real" title="réel">=3h</span><span class="ecart over" title="réel − estimé">+1h</span></span></div><div class="body"><span class="why">sans ça l&#x27;app ne sert à rien</span></div></div>
+<div class="card" data-state="progress" data-prio="P1"><div class="head"><span class="badge prio prio-P1">P1</span><span class="badge state state-progress">progress</span><span class="title">Ajouter une tâche</span><span class="metrics"><span class="effort" title="estimé">~1h</span></span></div><div class="body"><span class="why">l&#x27;utilisateur doit pouvoir créer une entrée</span></div></div>
+<div class="card" data-state="done" data-prio="P1"><div class="head"><span class="badge prio prio-P1">P1</span><span class="badge state state-done">done</span><span class="title">Cocher une tâche comme faite</span><span class="metrics"><span class="effort" title="estimé">~1h</span><span class="real" title="réel">=0.5h</span><span class="ecart under" title="réel − estimé">-0.5h</span></span></div><div class="body"><span class="why">feedback de complétion, base de l&#x27;usage quotidien</span></div></div>
+<div class="card" data-state="todo" data-prio="P2"><div class="head"><span class="badge prio prio-P2">P2</span><span class="badge state state-todo">todo</span><span class="title">Filtrer par statut (toutes / actives / faites)</span><span class="metrics"><span class="effort" title="estimé">~2h</span></span></div><div class="body"><span class="why">confort sur les longues listes</span></div></div>
 <h2 class="epic">Synchronisation multi-appareils <span class="epic-id">@epic:sync</span></h2>
-<div class="card" data-state="blocked" data-prio="P2"><div class="head"><span class="badge prio prio-P2">P2</span><span class="badge state state-blocked">blocked</span><span class="title">Synchroniser entre appareils</span><span class="effort">~8h</span></div><div class="body"><span class="why">les utilisateurs changent de device</span><div class="ctx"><div class="ctx-row devnote">@dev-note: backend requis, aucun choix de stack ni budget. Décision produit avant exécution.</div><div class="ctx-row">Pistes : service managé (Firebase) vs API maison. À cadrer avec le PO.</div></div></div></div>
-<div class="card" data-state="todo" data-prio="P3"><div class="head"><span class="badge prio prio-P3">P3</span><span class="badge state state-todo">todo</span><span class="title">Thème sombre</span><span class="effort">~2h</span></div><div class="body"><span class="why">demandé par plusieurs utilisateurs</span></div></div>
-<div class="card" data-state="todo" data-prio="wishlist"><div class="head"><span class="badge prio prio-wishlist">wishlist</span><span class="badge state state-todo">todo</span><span class="title">Rappels par notification</span><span class="effort">~4h</span></div><div class="body"><span class="why">nice-to-have, pas prioritaire</span></div></div>
+<div class="card" data-state="blocked" data-prio="P2"><div class="head"><span class="badge prio prio-P2">P2</span><span class="badge state state-blocked">blocked</span><span class="title">Synchroniser entre appareils</span><span class="metrics"><span class="effort" title="estimé">~8h</span></span></div><div class="body"><span class="why">les utilisateurs changent de device</span><div class="ctx"><div class="ctx-row devnote">@dev-note: backend requis, aucun choix de stack ni budget. Décision produit avant exécution.</div><div class="ctx-row">Pistes : service managé (Firebase) vs API maison. À cadrer avec le PO.</div></div></div></div>
+<div class="card" data-state="todo" data-prio="P3"><div class="head"><span class="badge prio prio-P3">P3</span><span class="badge state state-todo">todo</span><span class="title">Thème sombre</span><span class="metrics"><span class="effort" title="estimé">~2h</span></span></div><div class="body"><span class="why">demandé par plusieurs utilisateurs</span></div></div>
+<div class="card" data-state="todo" data-prio="wishlist"><div class="head"><span class="badge prio prio-wishlist">wishlist</span><span class="badge state state-todo">todo</span><span class="title">Rappels par notification</span><span class="metrics"><span class="effort" title="estimé">~4h</span></span></div><div class="body"><span class="why">nice-to-have, pas prioritaire</span></div></div>
 </main>
 <script>
   const active = { state:new Set(), prio:new Set() };

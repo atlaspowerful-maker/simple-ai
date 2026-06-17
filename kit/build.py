@@ -25,7 +25,8 @@ STATES = ["todo", "progress", "blocked", "done"]
 TICKET_RE = re.compile(r"^\[(?P<prio>[^\]]+)\]\[(?P<state>[a-z]+)\]\s+(?P<rest>.*)$")
 EPIC_RE = re.compile(r"^\[epic\]\s+(?P<id>\S+)\s+[—-]+\s+(?P<title>.*)$")
 CONT_RE = re.compile(r"^\s{2,}>\s?(?P<text>.*)$")
-EFFORT_RE = re.compile(r"\s*~([0-9.]+h)\s*$")
+EFFORT_RE = re.compile(r"\s*~([0-9.]+)h\s*$")   # estimé (créateur)
+REAL_RE = re.compile(r"\s*=([0-9.]+)h\s*$")      # réel (exécutant, à la clôture)
 EPICREF_RE = re.compile(r"\s*@epic:(?P<id>\S+)\s*")
 
 
@@ -58,16 +59,22 @@ def parse(text: str):
         m = TICKET_RE.match(line)
         if m:
             rest = m["rest"]
-            # L'epic d'abord (peut suivre l'effort), puis l'effort en fin de ligne.
+            # Ordre d'extraction depuis la fin : epic (n'importe où), puis réel (=Nh),
+            # puis estimé (~Nh) — chacun ancré en fin de ce qui reste.
             epic_id = ""
             mr = EPICREF_RE.search(rest)
             if mr:
                 epic_id = mr["id"]
                 rest = (rest[: mr.start()] + rest[mr.end():]).rstrip()
-            effort = ""
+            real = ""
+            mrl = REAL_RE.search(rest)
+            if mrl:
+                real = mrl.group(1)
+                rest = rest[: mrl.start()].rstrip()
+            est = ""
             me = EFFORT_RE.search(rest)
             if me:
-                effort = me.group(1)
+                est = me.group(1)
                 rest = rest[: me.start()].rstrip()
             if " — " in rest:
                 title, why = rest.split(" — ", 1)
@@ -78,7 +85,8 @@ def parse(text: str):
                 "state": m["state"].strip(),
                 "title": title.strip(),
                 "why": why.strip(),
-                "effort": effort,
+                "est": est,
+                "real": real,
                 "epic": epic_id,
                 "context": [],
             }
@@ -126,14 +134,28 @@ def render(epics, tickets) -> str:
                 )
                 ctx = f'<div class="ctx">{rows}</div>'
             why = f'<span class="why">{html.escape(t["why"])}</span>' if t["why"] else ""
-            # NB : EFFORT_RE capture sans le « ~ » (ex. "2h") ; on le ré-ajoute ici à l'affichage.
-            effort = f'<span class="effort">~{html.escape(t["effort"])}</span>' if t["effort"] else ""
+            # Estimé (~Nh) / réel (=Nh) / écart — cf. CONVENTION §10. Les regex capturent
+            # le nombre seul ; on ré-ajoute « ~ », « = » et « h » à l'affichage.
+            metrics = ""
+            if t["est"]:
+                metrics += f'<span class="effort" title="estimé">~{html.escape(t["est"])}h</span>'
+            if t["real"]:
+                metrics += f'<span class="real" title="réel">={html.escape(t["real"])}h</span>'
+                try:
+                    e, r = float(t["est"]), float(t["real"])
+                    if e > 0:
+                        d = r - e
+                        cls = "over" if d > 0 else ("under" if d < 0 else "spot")
+                        metrics += f'<span class="ecart {cls}" title="réel − estimé">{("+" if d > 0 else "")}{d:g}h</span>'
+                except ValueError:
+                    pass
             cards.append(
                 f'<div class="card" data-state="{t["state"]}" data-prio="{html.escape(t["prio"])}">'
                 f'<div class="head">'
                 f'<span class="badge prio prio-{html.escape(t["prio"])}">{html.escape(t["prio"])}</span>'
                 f'<span class="badge state state-{t["state"]}">{t["state"]}</span>'
-                f'<span class="title">{html.escape(t["title"])}</span>{effort}'
+                f'<span class="title">{html.escape(t["title"])}</span>'
+                f'<span class="metrics">{metrics}</span>'
                 f'</div>'
                 f'<div class="body">{why}{ctx}</div>'
                 f'</div>'
@@ -200,7 +222,13 @@ TEMPLATE = """<!doctype html>
   .state-todo {{ background:var(--todo); }} .state-progress {{ background:var(--progress); }}
   .state-blocked {{ background:var(--blocked); }} .state-done {{ background:var(--done); color:#062b13; }}
   .title {{ font-weight:600; }}
-  .effort {{ margin-left:auto; color:var(--dim); font-size:12px; }}
+  .metrics {{ margin-left:auto; display:flex; gap:6px; align-items:center; font-size:12px; white-space:nowrap; }}
+  .effort {{ color:var(--dim); }}
+  .real {{ color:var(--txt); font-weight:600; }}
+  .ecart {{ padding:1px 6px; border-radius:5px; font-weight:700; }}
+  .ecart.over {{ background:rgba(239,68,68,.18); color:#fca5a5; }}
+  .ecart.under {{ background:rgba(34,197,94,.18); color:#86efac; }}
+  .ecart.spot {{ background:rgba(107,114,128,.25); color:var(--dim); }}
   .body {{ margin-top:6px; }}
   .why {{ color:var(--dim); font-size:14px; }}
   .ctx {{ margin-top:8px; border-left:2px solid var(--line); padding-left:10px; }}
