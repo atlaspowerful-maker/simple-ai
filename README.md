@@ -1,18 +1,20 @@
 # simple-ai
 
 Un mini-framework **partageable** qui transforme n'importe quel repo en un workflow **PO ⇄ DEV**
-piloté par une IA agentique. On l'ajoute à son projet, on lance **une session PO et une session DEV
-en parallèle** (Claude Code, Codex…), et le tout est coordonné par **un backlog unique** + un
-**viewer HTML** des tickets et de leur avancement.
+piloté par une IA agentique. On l'ajoute à son projet, on ouvre **une session IA qui porte les deux
+casquettes tour à tour** (Claude Code, Codex…) — c'est le **mode solo, le défaut** — et le tout est
+coordonné par **un backlog unique** + un **viewer HTML** des tickets et de leur avancement. Quand le
+parallélisme devient vraiment utile, on **monte à deux sessions en parallèle** (voir plus bas).
 
 Le nom dit la philosophie : **simple**. Le moins de machinerie possible — des fichiers Markdown
 lisibles, un viewer HTML statique, **zéro serveur** qui tourne.
 
 ## Les deux casquettes
 
-Tu ouvres **deux sessions en parallèle** et tu **pilotes les deux toi-même** — tu n'es pas un maillon
-d'une chaîne séquentielle, tu parles aux deux quand tu veux. Elles ne communiquent **pas** directement
-entre elles : leur **seul** point de rendez-vous est `backlog.md`.
+**Deux casquettes — pas forcément deux sessions.** Par défaut (**solo**), **une seule session** les porte
+**tour à tour** : tu lui demandes d'être PO pour cadrer, puis DEV pour réaliser. Quand le parallélisme
+devient utile, tu **montes à deux sessions** que tu pilotes toi-même. Dans les deux cas, les casquettes
+ne communiquent **pas** directement entre elles : leur **seul** point de rendez-vous est `backlog.md`.
 
 - **Session PO** — *ordonne, structure, rédige*. Transforme les demandes (floues) en tickets clairs,
   priorise, dédup, et traite les remarques que lui renvoie le DEV. → [`kit/PO.md`](kit/PO.md)
@@ -36,8 +38,9 @@ entre elles : leur **seul** point de rendez-vous est `backlog.md`.
                             (le PO la lit dans le backlog et arbitre)
 ```
 
-> Les deux sessions tournent **chacune dans son worktree git** (`bin/po` / `bin/dev`) pour ne pas se
-> contaminer, et se coordonnent **uniquement** par le backlog. Détail : [`kit/WORKFLOW.md`](kit/WORKFLOW.md).
+> **Le schéma ci-dessus, c'est le mode deux sessions.** En **solo** (le défaut), une seule session fait
+> tout dans la racine du repo — rien à isoler. Si tu **montes à deux sessions** parallèles, chacune tourne
+> alors **dans son worktree git** (`bin/po` / `bin/dev`) pour ne pas se contaminer. Détail : [`kit/WORKFLOW.md`](kit/WORKFLOW.md).
 
 ## Installation
 
@@ -72,6 +75,14 @@ Dans les deux cas, `simple-ai/` contient :
 
 ## Lancer le workflow
 
+**Solo (le défaut)** — ouvre **une** session IA à la racine de ton repo et pilote-la par casquette :
+demande-lui d'être **PO** pour cadrer/prioriser, puis **DEV** pour dépiler et réaliser. Elle **annonce**
+la casquette qu'elle porte, **relit le backlog avant d'écrire**, et régénère le viewer. **Rien à lancer** :
+pas de worktree, pas de script — juste ta session IA habituelle.
+
+**Deux sessions (quand le parallélisme est utile)** — pour cadrer et coder *en même temps*, monte à deux
+sessions isolées par worktree :
+
 ```bash
 simple-ai/bin/po     # session PO  : cadrer, prioriser, traiter les @dev-note
 simple-ai/bin/dev    # session DEV : dépiler par priorité, réaliser, prouver
@@ -79,8 +90,14 @@ simple-ai/bin/dev    # session DEV : dépiler par priorité, réaliser, prouver
 
 Le lanceur **DEV** isole sa session dans un **worktree git dédié** (`../<repo>-dev` : HEAD/fichiers
 séparés ; git interdit le même checkout deux fois → garde-fou natif contre la contamination entre
-sessions) ; la **PO** travaille dans la racine — donc un checkout **distinct** de celui du DEV.
-Chaque lanceur affiche une **bannière de rôle** et signale (best-effort) si une autre session du même rôle tourne déjà.
+sessions) ; la **PO** travaille dans la racine. Chaque lanceur affiche une **bannière de rôle** et
+signale (best-effort) si une autre session du même rôle tourne déjà.
+
+### Solo ou deux sessions ?
+
+Commence **solo** : une session, zéro worktree — ça suffit à la majorité des projets. **Monte à deux
+sessions** seulement quand tu as un vrai besoin de **parallélisme** : cadrer le prochain lot pendant que
+le code avance, ou un backlog assez gros pour que PO et DEV travaillent sans s'attendre.
 
 ## Le viewer
 

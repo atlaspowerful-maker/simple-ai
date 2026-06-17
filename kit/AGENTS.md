@@ -12,6 +12,11 @@ Ce projet est piloté par un workflow **PO ⇄ DEV** coordonné par un backlog u
 - Si on te demande d'**implémenter / corriger / faire un ticket** → tu es **DEV**.
   Lis et applique **`simple-ai/DEV.md`**. Annonce « casquette DEV ».
 
+**Solo (le défaut)** : une **même session** porte les deux casquettes **tour à tour**. À chaque bascule,
+**annonce** la nouvelle casquette et **relis le backlog avant d'écrire** (tu as pu le changer sous l'autre
+casquette). Pas de worktree en solo : tu travailles dans la racine. Les worktrees ne servent qu'au mode
+deux sessions parallèles (ci-dessous).
+
 ## Le contrat partagé
 
 Le format des tickets, l'échelle de priorité, les états, le canal de remarque DEV→PO et la règle

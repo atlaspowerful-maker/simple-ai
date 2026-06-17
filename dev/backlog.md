@@ -37,7 +37,7 @@
   > Friction F2 du run réel. Reco : compléter la liste, ou mieux, la dériver d'une source unique (le contenu réel de kit/) pour qu'elle ne redérive pas — cf. esprit du ticket « garde anti-dérive ».
 [P3][todo] make-release embarque test_build.py dans l'install utilisateur — le test du framework atterrit dans le simple-ai/ de chaque projet (clutter) ~0.5h @epic:dx #test
   > Friction F4 du run réel : le zip livre test_build.py (test interne de build.parse). calibrate.py, lui, est un outil user légitime → garder. Reco : exclure test_build.py de l'archive (git archive sur un sous-ensemble, ou .gitattributes export-ignore).
-[P1][todo] Mode solo par défaut — une session, deux casquettes, sans worktree : le mode 2-sessions devient une montée en puissance, pas le point d'entrée ~3h @epic:dx
+[P1][done] Mode solo par défaut — une session, deux casquettes, sans worktree : le mode 2-sessions devient une montée en puissance, pas le point d'entrée ~3h =1.5h @epic:dx
   > Problème : aujourd'hui tout (README, bin/, WORKFLOW) impose 2 sessions + 2 worktrees + pilotage parallèle dès le départ → plus lourd que « j'ouvre une session Claude ». Menace directe l'objectif « simple ».
   > Cible : une voie d'entrée où UNE session porte PO puis DEV tour à tour, sur le backlog local, dans la racine, zéro worktree. On monte vers 2-sessions seulement quand le parallélisme est réellement utile.
   > Scope (rester simple) : surtout de la DOC. README présente le solo comme DÉFAUT (décision actée) ; CLAUDE.md + AGENTS.md disent comment une même session bascule de casquette (annoncer le changement, relire le backlog avant d'écrire). PAS de script bin/solo (décision actée : solo = on lance sa session IA à la racine, rien à exécuter).
