@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>simple-ai — backlog</title>
+<style>
+  :root {
+    --bg:#0f1115; --card:#181b22; --line:#262a33; --txt:#e6e8ec; --dim:#9aa0aa;
+    --p0:#ef4444; --p1:#f59e0b; --p2:#3b82f6; --p3:#8b5cf6; --wish:#6b7280;
+    --todo:#6b7280; --progress:#3b82f6; --blocked:#ef4444; --done:#22c55e;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  header { padding:24px 28px 12px; border-bottom:1px solid var(--line); }
+  h1 { margin:0 0 4px; font-size:20px; }
+  .meta { color:var(--dim); font-size:13px; }
+  .meta a { color:var(--progress); text-decoration:none; }
+  .filters { display:flex; flex-wrap:wrap; gap:8px; padding:14px 28px; border-bottom:1px solid var(--line); }
+  .chip { background:var(--card); color:var(--txt); border:1px solid var(--line);
+    border-radius:999px; padding:5px 12px; font-size:13px; cursor:pointer; }
+  .chip.off { opacity:.35; }
+  .chip b { color:var(--dim); }
+  main { padding:18px 28px 60px; max-width:920px; }
+  .epic { font-size:15px; color:var(--dim); margin:26px 0 10px; font-weight:600;
+    text-transform:uppercase; letter-spacing:.04em; }
+  .epic-id { font-weight:400; opacity:.6; font-size:12px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; margin:8px 0; }
+  .head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .badge { font-size:11px; font-weight:700; padding:2px 7px; border-radius:5px; text-transform:uppercase; }
+  .prio-P0 { background:var(--p0); } .prio-P1 { background:var(--p1); color:#111; }
+  .prio-P2 { background:var(--p2); } .prio-P3 { background:var(--p3); }
+  .prio-wishlist { background:var(--wish); }
+  .state-todo { background:var(--todo); } .state-progress { background:var(--progress); }
+  .state-blocked { background:var(--blocked); } .state-done { background:var(--done); color:#062b13; }
+  .title { font-weight:600; }
+  .effort { margin-left:auto; color:var(--dim); font-size:12px; }
+  .body { margin-top:6px; }
+  .why { color:var(--dim); font-size:14px; }
+  .ctx { margin-top:8px; border-left:2px solid var(--line); padding-left:10px; }
+  .ctx-row { color:var(--dim); font-size:13px; padding:1px 0; }
+  .ctx-row.devnote { color:var(--blocked); font-weight:500; }
+  .card.done { opacity:.55; }
+  .empty { color:var(--dim); }
+  code { background:var(--card); padding:1px 5px; border-radius:4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📋 Backlog — 7 ticket(s)</h1>
+  <div class="meta">Généré le 2026-06-17 19:12 UTC · <a href="PROJECT.md">PROJECT.md</a> · source : <code>backlog.md</code></div>
+</header>
+<div class="filters">
+  <button class="chip f-state" data-f="todo">todo <b>4</b></button><button class="chip f-state" data-f="progress">progress <b>1</b></button><button class="chip f-state" data-f="blocked">blocked <b>1</b></button><button class="chip f-state" data-f="done">done <b>1</b></button>
+  <span style="width:12px"></span>
+  <button class="chip f-prio" data-f="P0">P0</button><button class="chip f-prio" data-f="P1">P1</button><button class="chip f-prio" data-f="P2">P2</button><button class="chip f-prio" data-f="P3">P3</button><button class="chip f-prio" data-f="wishlist">wishlist</button>
+</div>
+<main id="list">
+<h2 class="epic">Fonctions de base de la liste <span class="epic-id">@epic:core</span></h2>
+<div class="card" data-state="done" data-prio="P0"><div class="head"><span class="badge prio prio-P0">P0</span><span class="badge state state-done">done</span><span class="title">Afficher la liste des tâches</span></div><div class="body"><span class="why">sans ça l&#x27;app ne sert à rien ~2h</span></div></div>
+<div class="card" data-state="todo" data-prio="P1"><div class="head"><span class="badge prio prio-P1">P1</span><span class="badge state state-todo">todo</span><span class="title">Cocher une tâche comme faite</span></div><div class="body"><span class="why">feedback de complétion, base de l&#x27;usage quotidien ~1h</span></div></div>
+<div class="card" data-state="progress" data-prio="P1"><div class="head"><span class="badge prio prio-P1">P1</span><span class="badge state state-progress">progress</span><span class="title">Ajouter une tâche</span></div><div class="body"><span class="why">l&#x27;utilisateur doit pouvoir créer une entrée ~1h</span></div></div>
+<div class="card" data-state="todo" data-prio="P2"><div class="head"><span class="badge prio prio-P2">P2</span><span class="badge state state-todo">todo</span><span class="title">Filtrer par statut (toutes / actives / faites)</span></div><div class="body"><span class="why">confort sur les longues listes ~2h</span></div></div>
+<h2 class="epic">Synchronisation multi-appareils <span class="epic-id">@epic:sync</span></h2>
+<div class="card" data-state="blocked" data-prio="P2"><div class="head"><span class="badge prio prio-P2">P2</span><span class="badge state state-blocked">blocked</span><span class="title">Synchroniser entre appareils</span></div><div class="body"><span class="why">les utilisateurs changent de device ~8h</span><div class="ctx"><div class="ctx-row devnote">@dev-note: backend requis, aucun choix de stack ni budget. Décision produit avant exécution.</div><div class="ctx-row">Pistes : service managé (Firebase) vs API maison. À cadrer avec le PO.</div></div></div></div>
+<div class="card" data-state="todo" data-prio="P3"><div class="head"><span class="badge prio prio-P3">P3</span><span class="badge state state-todo">todo</span><span class="title">Thème sombre</span><span class="effort">~2h</span></div><div class="body"><span class="why">demandé par plusieurs utilisateurs</span></div></div>
+<div class="card" data-state="todo" data-prio="wishlist"><div class="head"><span class="badge prio prio-wishlist">wishlist</span><span class="badge state state-todo">todo</span><span class="title">Rappels par notification</span><span class="effort">~4h</span></div><div class="body"><span class="why">nice-to-have, pas prioritaire</span></div></div>
+</main>
+<script>
+  const active = { state:new Set(), prio:new Set() };
+  function apply() {
+    document.querySelectorAll('.card').forEach(c => {
+      const okS = active.state.size===0 || active.state.has(c.dataset.state);
+      const okP = active.prio.size===0 || active.prio.has(c.dataset.prio);
+      c.style.display = (okS && okP) ? '' : 'none';
+    });
+  }
+  function wire(sel, bucket) {
+    document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => {
+      const v = b.dataset.f;
+      if (active[bucket].has(v)) { active[bucket].delete(v); b.classList.add('off'); }
+      else { active[bucket].add(v); b.classList.remove('off'); }
+      apply();
+    }));
+  }
+  wire('.f-state','state'); wire('.f-prio','prio');
+  document.querySelectorAll('.card[data-state=done]').forEach(c => c.classList.add('done'));
+</script>
+</body>
+</html>

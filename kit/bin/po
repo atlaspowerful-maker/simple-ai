@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# simple-ai — lanceur session PO.
+# La PO travaille dans la racine du repo (ou un worktree dédié si tu préfères) ;
+# l'important est qu'elle ne partage PAS le checkout de la session DEV.
+# Affiche la bannière de rôle, signale une éventuelle session PO déjà active.
+#
+#   Usage : simple-ai/bin/po
+set -euo pipefail
+
+ROLE="PO"; role="po"
+ROOT="$(git rev-parse --show-toplevel)"
+LOCK="$ROOT/simple-ai/.session-$role.lock"
+
+if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK" 2>/dev/null)" 2>/dev/null; then
+  echo "⚠️  Une session $ROLE semble déjà active (pid $(cat "$LOCK"))."
+fi
+
+echo $$ > "$LOCK"
+cat <<BANNER
+
+  ╔══════════════════════════════════════════╗
+  ║   Casquette PO — simple-ai                ║
+  ╚══════════════════════════════════════════╝
+  Dossier : $ROOT  (racine — distinct du worktree DEV)
+  À lire   : simple-ai/PO.md  +  simple-ai/CONVENTION.md
+  Backlog  : simple-ai/backlog.md  → intake, structure, priorise, traite les @dev-note.
+  Après chaque édition : python3 simple-ai/build.py
+
+BANNER
+
+cd "$ROOT"
+exec "${SHELL:-bash}"

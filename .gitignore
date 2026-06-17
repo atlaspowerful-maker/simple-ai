@@ -1,0 +1,6 @@
+# Verrous de session (informationnels, par machine)
+**/.session-*.lock
+
+# Artefacts Python
+__pycache__/
+*.pyc
