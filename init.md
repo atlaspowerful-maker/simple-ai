@@ -6,10 +6,13 @@
 
 Tu es l'IA chargée d'installer **simple-ai** dans le repo courant. Déroule ces étapes :
 
-## 1. Crée l'arborescence `simple-ai/`
+## 1. Pose l'arborescence `simple-ai/`
 
-À la racine du repo, crée le dossier `simple-ai/` et **copie-y** les fichiers du kit
-(depuis ce dépôt simple-ai, dossier `kit/`) :
+**Le plus simple — l'archive (ou la CLI).** Extrais `simple-ai.zip` (page Releases, ou `./make-release.sh`)
+**à la racine du repo** → tu obtiens un dossier `simple-ai/` **prêt**, bit `+x` des lanceurs **préservé**.
+Rien à copier, pas de `chmod`. (Équivalent : `uvx simple-ai init`.)
+
+**Sinon — copie manuelle** depuis ce dépôt simple-ai (dossier `kit/`). Crée `simple-ai/` et copie-y :
 
 ```
 simple-ai/
@@ -20,6 +23,7 @@ simple-ai/
 ├── WORKFLOW.md      ← kit/WORKFLOW.md   (git : sessions, branches, merge, qui valide)
 ├── AGENTS.md        ← kit/AGENTS.md     (point d'entrée Codex & co)
 ├── build.py         ← kit/build.py      (générateur du viewer)
+├── calibrate.py     ← kit/calibrate.py  (calibration des estimations, SA11)
 ├── backlog.md       ← kit/backlog.md    (gabarit vide, à personnaliser)
 ├── PROJECT.md       ← kit/PROJECT.md    (doc d'amorce, à remplir)
 └── bin/
@@ -27,9 +31,10 @@ simple-ai/
     └── dev          ← kit/bin/dev       (lanceur session DEV)
 ```
 
-⚠️ **Si tu as installé par copie** (pas par l'archive `simple-ai.zip`, qui préserve le bit `+x`) :
-une copie via un outil d'écriture **perd le `+x`** des lanceurs. Rends-les exécutables — sinon `bin/po` /
-`bin/dev` refuseront de se lancer :
+> `kit/test_build.py` (test interne du parser) **n'est pas livré** : il reste au dépôt simple-ai.
+
+⚠️ **Copie manuelle uniquement** : une copie via un outil d'écriture **perd le `+x`** des lanceurs (sinon
+`bin/po` / `bin/dev` refuseront de se lancer). L'archive et la CLI, elles, le préservent. Rends-les exécutables :
 ```
 chmod +x simple-ai/bin/po simple-ai/bin/dev simple-ai/build.py
 ```

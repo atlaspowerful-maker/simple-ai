@@ -31,11 +31,14 @@
   > Décidé (PO) : run en 2-sessions (mode existant ; le solo n'est pas encore livré) ; B passe AVANT A pour révéler les frictions qui justifient le solo ; on garde dev/RUNLOG.md seul, le projet jetable reste hors repo.
   > Preuve : un livrable jetable réellement atteint + dev/RUNLOG.md daté + au moins 3 frictions transformées en tickets.
   > Fait (DEV) : run citation-cli mené (install zip → PO → DEV → livrable + RUNLOG). Frictions F1/F2/F4 → tickets ci-dessous ; F3 (poids worktree en solo) valide le ticket « Mode solo ». Voir dev/RUNLOG.md.
-[P2][todo] init.md ignore l'install par zip (le vrai artefact de release) — §1 décrit la copie manuelle depuis kit/ (qui perd le +x → chmod), le zip n'est mentionné nulle part ~1h @epic:dx #doc
+[P2][done] init.md ignore l'install par zip (le vrai artefact de release) — §1 décrit la copie manuelle depuis kit/ (qui perd le +x → chmod), le zip n'est mentionné nulle part ~1h =0.5h @epic:dx #doc
   > Friction F1 du run réel : `unzip simple-ai.zip` pose `simple-ai/` prêt, bit +x préservé → le chemin le plus simple. init.md décrit l'autre chemin (copie kit/) et son piège chmod, sans jamais citer le zip. Reco : documenter le zip comme chemin d'install par défaut, reléguer la copie manuelle.
-[P2][todo] Manifeste de fichiers d'init.md §1 a dérivé — omet calibrate.py et test_build.py pourtant livrés ; une install par copie manuelle les rate ~0.5h @epic:dx #doc
+  > Fait (DEV) : init.md §1 présente archive/CLI en défaut, copie manuelle reléguée + chmod cadré « copie uniquement ». README aligné (3 façons dont uvx).
+[P2][done] Manifeste de fichiers d'init.md §1 a dérivé — omet calibrate.py et test_build.py pourtant livrés ; une install par copie manuelle les rate ~0.5h =0.25h @epic:dx #doc
   > Friction F2 du run réel. Reco : compléter la liste, ou mieux, la dériver d'une source unique (le contenu réel de kit/) pour qu'elle ne redérive pas — cf. esprit du ticket « garde anti-dérive ».
-[P3][todo] make-release embarque test_build.py dans l'install utilisateur — le test du framework atterrit dans le simple-ai/ de chaque projet (clutter) ~0.5h @epic:dx #test
+  > Fait (DEV) : ajouté calibrate.py au manifeste init.md + table README. test_build.py volontairement EXCLU du manifeste car F4 l'exclut désormais du livrable.
+[P3][done] make-release embarque test_build.py dans l'install utilisateur — le test du framework atterrit dans le simple-ai/ de chaque projet (clutter) ~0.5h =0.5h @epic:dx #test
+  > Fait (DEV) : kit/.gitattributes (export-ignore sur test_build.py + .gitattributes lui-même). git archive l'exclut → zip ET snapshot CLI propres. Prouvé : zip ne contient plus test_build.py. calibrate.py (outil user) reste livré.
   > Friction F4 du run réel : le zip livre test_build.py (test interne de build.parse). calibrate.py, lui, est un outil user légitime → garder. Reco : exclure test_build.py de l'archive (git archive sur un sous-ensemble, ou .gitattributes export-ignore).
 [P1][done] Mode solo par défaut — une session, deux casquettes, sans worktree : le mode 2-sessions devient une montée en puissance, pas le point d'entrée ~3h =1.5h @epic:dx
   > Problème : aujourd'hui tout (README, bin/, WORKFLOW) impose 2 sessions + 2 worktrees + pilotage parallèle dès le départ → plus lourd que « j'ouvre une session Claude ». Menace directe l'objectif « simple ».

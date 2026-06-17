@@ -44,14 +44,15 @@ ne communiquent **pas** directement entre elles : leur **seul** point de rendez-
 
 ## Installation
 
-> **Ce que tu déposes dans ton projet = le dossier `simple-ai/` (11 fichiers), PAS tout ce dépôt.**
+> **Ce que tu déposes dans ton projet = le dossier `simple-ai/`, PAS tout ce dépôt.**
 > Ce repo contient aussi le développement de simple-ai (`dev/`, `example/`, `make-release.sh`…) qui
 > **ne va jamais** dans ton projet. Passe par l'**archive `simple-ai.zip`** (page Releases) : elle ne
 > contient que le dossier `simple-ai/`. Ne clone pas le repo pour l'installer.
 
-Deux façons, au choix :
+Trois façons, au choix :
 
-- **Archive (le plus simple)** — télécharge `simple-ai.zip` (page Releases, ou `./make-release.sh`),
+- **CLI (`uvx`)** — `uvx simple-ai init` pose `simple-ai/` dans le repo courant (Python, zéro dépendance) — cf. [`cli/`](cli/).
+- **Archive** — télécharge `simple-ai.zip` (page Releases, ou `./make-release.sh`),
   **extrais-la à la racine de ton projet** → tu obtiens un dossier `simple-ai/` prêt à l'emploi. Puis
   ouvre une session IA et demande-lui de remplir `simple-ai/PROJECT.md` + `CONFIG.md` (mini-interview).
 - **Prompt `/init`** — ouvre [`init.md`](init.md) dans une session IA lancée à la racine de ton repo et
@@ -69,6 +70,7 @@ Dans les deux cas, `simple-ai/` contient :
 | `simple-ai/AGENTS.md` | Point d'entrée pour Codex & agents lisant `AGENTS.md` | l'humain (rare) |
 | `simple-ai/backlog.md` | **Le backlog unique** — canal de coordination PO ⇄ DEV | PO + DEV (à chaud) |
 | `simple-ai/build.py` | Générateur `backlog.md` → `backlog.html` | jamais (outil) |
+| `simple-ai/calibrate.py` | Calibration des estimés (médiane des écarts réel/estimé, SA11) | jamais (outil) |
 | `simple-ai/backlog.html` | **Le viewer** (tickets, contexte, avancement) — régénéré à chaque changement | jamais (artefact) |
 | `simple-ai/PROJECT.md` | Doc projet d'amorce, accessible depuis le viewer | PO / humain |
 | `simple-ai/bin/po`, `bin/dev` | Lanceurs de session (worktree isolé + bannière de rôle) | jamais (outil) |
