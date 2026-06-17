@@ -22,7 +22,7 @@
 [P2][done] Archive livrable + release v0.1 (make-release.sh + GitHub) — zip propre du dossier simple-ai/ ~2h @epic:dx
 [P2][done] build.py accepte un chemin de backlog — rendre dev/backlog.md sans dupliquer le générateur ~1h @epic:core
 
-[P3][todo] Routine de calibration des estimations (SA11) — lit les done (~Nh + =Nh) via build.parse, médiane des ratios réel/estimé = facteur suggéré ; mesure et suggère, l'humain décide ~3h @epic:core
+[P3][done] Routine de calibration des estimations (SA11) — lit les done (~Nh + =Nh) via build.parse, médiane des ratios réel/estimé = facteur suggéré ; mesure et suggère, l'humain décide ~3h =2h @epic:core
 [P3][todo] CLI simple-ai init (npx/uvx) — remplacer le prompt /init par une vraie commande qui pose le dossier simple-ai/ ~5h @epic:dx
 [wishlist][todo] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h @epic:core
 [wishlist][todo] Publier le viewer en ligne en une commande — exploiter le hook publish de CONFIG.md ~2h @epic:dx
