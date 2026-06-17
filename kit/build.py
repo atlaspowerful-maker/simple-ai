@@ -10,6 +10,7 @@ Aucune dépendance externe (stdlib uniquement). À relancer après CHAQUE change
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import re
 import sys
@@ -31,6 +32,7 @@ CONT_RE = re.compile(r"^\s{2,}>\s?(?P<text>.*)$")
 EFFORT_RE = re.compile(r"\s*~([0-9.]+)h\s*$")   # estimé (créateur)
 REAL_RE = re.compile(r"\s*=([0-9.]+)h\s*$")      # réel (exécutant, à la clôture)
 EPICREF_RE = re.compile(r"\s*@epic:(?P<id>\S+)\s*")
+TAG_RE = re.compile(r"\s*#(?P<tag>[\w-]+)")       # tag libre (couche/nature), cf. CONVENTION §7
 
 
 def parse(text: str):
@@ -62,13 +64,17 @@ def parse(text: str):
         m = TICKET_RE.match(line)
         if m:
             rest = m["rest"]
-            # Ordre d'extraction depuis la fin : epic (n'importe où), puis réel (=Nh),
-            # puis estimé (~Nh) — chacun ancré en fin de ce qui reste.
+            # Ordre d'extraction : epic puis tags (n'importe où dans la zone méta),
+            # puis réel (=Nh), puis estimé (~Nh) ancrés en fin de ce qui reste. On
+            # retire epic/tags AVANT le split titre—pourquoi pour ne pas les y laisser.
             epic_id = ""
             mr = EPICREF_RE.search(rest)
             if mr:
                 epic_id = mr["id"]
                 rest = (rest[: mr.start()] + rest[mr.end():]).rstrip()
+            tags = TAG_RE.findall(rest)          # vocabulaire libre, plusieurs autorisés
+            if tags:
+                rest = TAG_RE.sub("", rest).rstrip()
             real = ""
             mrl = REAL_RE.search(rest)
             if mrl:
@@ -91,6 +97,7 @@ def parse(text: str):
                 "est": est,
                 "real": real,
                 "epic": epic_id,
+                "tags": tags,
                 "context": [],
             }
             tickets.append(current)
@@ -103,6 +110,12 @@ def parse(text: str):
 
 def prio_key(t):
     return (PRIO_ORDER.get(t["prio"], 99), STATES.index(t["state"]) if t["state"] in STATES else 99)
+
+
+def tag_hue(tag: str) -> int:
+    """Teinte (0-359) déterministe dérivée du nom du tag — zéro config, stable entre runs.
+    (hash() de Python est randomisé par PYTHONHASHSEED ; md5 garantit la stabilité.)"""
+    return int(hashlib.md5(tag.encode("utf-8")).hexdigest(), 16) % 360
 
 
 def render(epics, tickets) -> str:
@@ -158,13 +171,21 @@ def render(epics, tickets) -> str:
             has_ctx = bool(t["context"])
             cls = "card has-ctx collapsed" if has_ctx else "card"
             caret = '<span class="caret" aria-hidden="true">▸</span>' if has_ctx else ""
+            # Chips tag (couche/nature), couleur déterministe par nom — cf. CONVENTION §7.
+            tag_chips = "".join(
+                f'<span class="tag" style="--h:{tag_hue(tg)}">#{html.escape(tg)}</span>'
+                for tg in t["tags"]
+            )
+            data_tags = html.escape(" ".join(t["tags"]))
             cards.append(
-                f'<div class="{cls}" data-state="{t["state"]}" data-prio="{html.escape(t["prio"])}">'
+                f'<div class="{cls}" data-state="{t["state"]}" data-prio="{html.escape(t["prio"])}"'
+                f' data-tags="{data_tags}">'
                 f'<div class="head">'
                 f'{caret}'
                 f'<span class="badge prio prio-{html.escape(t["prio"])}">{html.escape(t["prio"])}</span>'
                 f'<span class="badge state state-{t["state"]}">{t["state"]}</span>'
                 f'<span class="title">{html.escape(t["title"])}</span>'
+                f'{tag_chips}'
                 f'<span class="metrics">{metrics}</span>'
                 f'</div>'
                 f'<div class="body">{why}{ctx}</div>'
@@ -184,12 +205,18 @@ def render(epics, tickets) -> str:
     prio_chips = "".join(
         f'<button class="chip f-prio" data-f="{html.escape(p)}">{html.escape(p)}</button>' for p in prios_present
     )
+    tags_present = sorted({tg for t in tickets for tg in t["tags"]})
+    tag_chips = "".join(
+        f'<button class="chip f-tag" data-f="{html.escape(tg)}" style="--h:{tag_hue(tg)}">#{html.escape(tg)}</button>'
+        for tg in tags_present
+    )
 
     return TEMPLATE.format(
         total=total,
         generated=generated,
         state_chips=state_chips,
         prio_chips=prio_chips,
+        tag_chips=tag_chips,
         cards=cards_html,
     )
 
@@ -232,6 +259,9 @@ TEMPLATE = """<!doctype html>
   .state-todo {{ background:var(--todo); }} .state-progress {{ background:var(--progress); }}
   .state-blocked {{ background:var(--blocked); }} .state-done {{ background:var(--done); color:#062b13; }}
   .title {{ font-weight:600; }}
+  .tag {{ background:hsl(var(--h),45%,30%); color:#eceef2; font-size:11px; font-weight:600;
+    padding:1px 7px; border-radius:999px; }}
+  .chip.f-tag {{ background:hsl(var(--h),40%,22%); border-color:hsl(var(--h),40%,38%); }}
   .metrics {{ margin-left:auto; display:flex; gap:6px; align-items:center; font-size:12px; white-space:nowrap; }}
   .effort {{ background:rgba(245,158,11,.16); color:#fbbf24; padding:1px 6px; border-radius:5px; font-weight:600; }}
   .real {{ color:var(--txt); font-weight:600; }}
@@ -262,17 +292,21 @@ TEMPLATE = """<!doctype html>
   {state_chips}
   <span style="width:12px"></span>
   {prio_chips}
+  <span style="width:12px"></span>
+  {tag_chips}
 </div>
 <main id="list">
 {cards}
 </main>
 <script>
-  const active = {{ state:new Set(), prio:new Set() }};
+  const active = {{ state:new Set(), prio:new Set(), tags:new Set() }};
   function apply() {{
     document.querySelectorAll('.card').forEach(c => {{
       const okS = active.state.size===0 || active.state.has(c.dataset.state);
       const okP = active.prio.size===0 || active.prio.has(c.dataset.prio);
-      c.style.display = (okS && okP) ? '' : 'none';
+      const ct = (c.dataset.tags || '').split(' ').filter(Boolean);
+      const okT = active.tags.size===0 || ct.some(t => active.tags.has(t));
+      c.style.display = (okS && okP && okT) ? '' : 'none';
     }});
   }}
   function wire(sel, bucket) {{
@@ -283,7 +317,7 @@ TEMPLATE = """<!doctype html>
       apply();
     }}));
   }}
-  wire('.f-state','state'); wire('.f-prio','prio');
+  wire('.f-state','state'); wire('.f-prio','prio'); wire('.f-tag','tags');
   document.querySelectorAll('.card[data-state=done]').forEach(c => c.classList.add('done'));
   // Repli/dépli du contexte au clic sur la carte (seules les cartes .has-ctx).
   document.querySelectorAll('.card.has-ctx').forEach(c =>

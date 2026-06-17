@@ -50,7 +50,7 @@
   > Estimé : ~Nh est rendu en gris atténué (.effort color:dim) → le rendre lisible (badge aligné avec prio/état) ; réel =Nh et écart déjà visibles, garder la cohérence.
   > Scope : uniquement kit/build.py (TEMPLATE + CSS + petit JS de toggle, stdlib, zéro dépendance). Régénérer dev/backlog.html après. Livrable public → générique, sans réf interne.
   > Preuve : backlog.html ouvert → liste compacte scannable ; un clic ouvre/ferme le détail d'un ticket ; l'estimé saute aux yeux.
-[P3][todo] Tags libres sur les tickets (#tag) — 2e axe de catégorisation transverse à @epic: (couche/nature : #front #back #infra…), vocabulaire LIBRE choisi par le projet ~3h @epic:core
+[P3][done] Tags libres sur les tickets (#tag) — 2e axe de catégorisation transverse à @epic: (couche/nature : #front #back #infra…), vocabulaire LIBRE choisi par le projet ~3h =1.5h @epic:core
   > Décidé (humain) : tag GÉNÉRIQUE et LIBRE (#token alphanum/-), PAS de liste figée Front/Back/Infra ; le framework reste agnostique. Orthogonal à @epic: (epic = thème/feature ; tag = couche/nature).
   > Syntaxe (reco) : #token dans la zone méta de fin de ligne, au même endroit que @epic: / ~Nh / =Nh, plusieurs autorisés. Ex : [P2][todo] Titre — pourquoi ~2h @epic:core #back #infra
   > Travail : (1) CONVENTION.md documente le token = contrat ; (2) kit/build.py : le parser extrait les #tags (ancrage fin de ligne comme @epic, AVANT le split titre—pourquoi — attention à l'extraction subtile signalée par C1), render en chips, filtre tag réutilisant le mécanisme f-state/f-prio ; (3) tests parse() (on en a maintenant) : 0 / 1 / N tags + cohabitation epic+réel+estimé ; (4) mention courte PO.md/DEV.md.

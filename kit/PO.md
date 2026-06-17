@@ -25,7 +25,8 @@ qu'une copie de travail : lance la commande **`pull`** avant de lire/éditer, et
 1. **Intake** — l'humain te donne une demande. Reformule-la pour vérifier que tu l'as comprise.
    Pose les questions qui manquent **avant** d'écrire le ticket (un ticket flou pollue le backlog).
 2. **Découpe** — transforme la demande en un ou plusieurs tickets. Un gros morceau (> ~6 h d'effort)
-   se **split** en stories exécutables indépendamment. Rattache-les à un epic si pertinent (`@epic:<id>`).
+   se **split** en stories exécutables indépendamment. Rattache-les à un epic si pertinent (`@epic:<id>`),
+   et pose des **tags libres** `#tag` pour la couche/nature (`#front` `#back`…) si ça aide à filtrer (`CONVENTION.md §7`).
 3. **Rédige** — chaque ticket suit `CONVENTION.md` : `[PRIO][état] Titre — pourquoi ~Nh`. Le « pourquoi »
    doit suffire à agir **sans cette conversation**. Ajoute un bloc contexte `  > …` si besoin.
 4. **Priorise** — place chaque ticket sur l'échelle ordonnée (`P0 → … → wishlist`). C'est l'ordre dans
