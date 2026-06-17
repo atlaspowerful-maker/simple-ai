@@ -152,9 +152,16 @@ def render(epics, tickets) -> str:
                         metrics += f'<span class="ecart {cls}" title="réel − estimé">{("+" if d > 0 else "")}{d:g}h</span>'
                 except ValueError:
                     pass
+            # Carte repliable : seul le bloc contexte (.ctx) se replie au clic. Titre,
+            # pourquoi et badges restent toujours visibles = ligne scannable. Le caret
+            # n'apparaît que sur les cartes qui ont un contexte à dévoiler.
+            has_ctx = bool(t["context"])
+            cls = "card has-ctx collapsed" if has_ctx else "card"
+            caret = '<span class="caret" aria-hidden="true">▸</span>' if has_ctx else ""
             cards.append(
-                f'<div class="card" data-state="{t["state"]}" data-prio="{html.escape(t["prio"])}">'
+                f'<div class="{cls}" data-state="{t["state"]}" data-prio="{html.escape(t["prio"])}">'
                 f'<div class="head">'
+                f'{caret}'
                 f'<span class="badge prio prio-{html.escape(t["prio"])}">{html.escape(t["prio"])}</span>'
                 f'<span class="badge state state-{t["state"]}">{t["state"]}</span>'
                 f'<span class="title">{html.escape(t["title"])}</span>'
@@ -226,7 +233,7 @@ TEMPLATE = """<!doctype html>
   .state-blocked {{ background:var(--blocked); }} .state-done {{ background:var(--done); color:#062b13; }}
   .title {{ font-weight:600; }}
   .metrics {{ margin-left:auto; display:flex; gap:6px; align-items:center; font-size:12px; white-space:nowrap; }}
-  .effort {{ color:var(--dim); }}
+  .effort {{ background:rgba(245,158,11,.16); color:#fbbf24; padding:1px 6px; border-radius:5px; font-weight:600; }}
   .real {{ color:var(--txt); font-weight:600; }}
   .ecart {{ padding:1px 6px; border-radius:5px; font-weight:700; }}
   .ecart.over {{ background:rgba(239,68,68,.18); color:#fca5a5; }}
@@ -238,6 +245,10 @@ TEMPLATE = """<!doctype html>
   .ctx-row {{ color:var(--dim); font-size:13px; padding:1px 0; }}
   .ctx-row.devnote {{ color:var(--blocked); font-weight:500; }}
   .card.done {{ opacity:.55; }}
+  .caret {{ color:var(--dim); font-size:11px; line-height:1; display:inline-block; transition:transform .15s; }}
+  .card:not(.collapsed) .caret {{ transform:rotate(90deg); }}
+  .card.has-ctx {{ cursor:pointer; }}
+  .card.collapsed .ctx {{ display:none; }}
   .empty {{ color:var(--dim); }}
   code {{ background:var(--card); padding:1px 5px; border-radius:4px; }}
 </style>
@@ -274,6 +285,9 @@ TEMPLATE = """<!doctype html>
   }}
   wire('.f-state','state'); wire('.f-prio','prio');
   document.querySelectorAll('.card[data-state=done]').forEach(c => c.classList.add('done'));
+  // Repli/dépli du contexte au clic sur la carte (seules les cartes .has-ctx).
+  document.querySelectorAll('.card.has-ctx').forEach(c =>
+    c.addEventListener('click', () => c.classList.toggle('collapsed')));
 </script>
 </body>
 </html>
