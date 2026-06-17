@@ -1,0 +1,7 @@
+# Snapshot du kit : source unique = kit/, régénéré par sync-kit.sh (jamais committé).
+simple_ai/_kit/
+# Artefacts de build Python.
+dist/
+build/
+*.egg-info/
+__pycache__/

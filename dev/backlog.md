@@ -64,8 +64,9 @@
   > Couleur des chips : palette déterministe par hash du nom (zéro config, pas de setup).
   > Scope (garde-fou) : zéro dépendance, ADDITIF (un ticket sans #tag marche comme avant). Livrable public → générique. Régénérer le viewer après.
   > Preuve : un ticket #back s'affiche avec sa chip ; le filtre tag masque/montre ; parse() renvoie la liste des tags ; CONVENTION à jour.
-[P3][todo] CLI simple-ai init (uvx, Python) — remplacer le prompt /init par une vraie commande qui pose le dossier simple-ai/ ~5h @epic:dx
+[P3][done] CLI simple-ai init (uvx, Python) — remplacer le prompt /init par une vraie commande qui pose le dossier simple-ai/ ~5h =2h @epic:dx
   > Décidé (PO) : runtime = uvx. Cohérent avec un framework 100 % Python (build.py, calibrate.py), zéro dépendance Node. Pas de variante npx (garde-fou simple). Le nom de package / distrib suit ce choix.
+  > Fait (DEV) : cli/ (pyproject « simple-ai » + simple_ai/cli.py, stdlib, `uvx simple-ai init` pose simple-ai/ + chmod +x + garde idempotence). Source unique préservée : le kit est un snapshot gitignoré régénéré par cli/sync-kit.sh (pas de 3e copie committée). Prouvé : scaffold dans /tmp fonctionnel. Reste : publication PyPI (étape humaine, token requis).
 [P3][done] build.py dupliqué dans example/ a dérivé — copie antérieure au support du chemin (pourtant done) ; viole la source unique kit/ ~1h =0.5h @epic:dx
   > Confirmé divergent (diff kit/build.py ↔ example/demo-todo/simple-ai/build.py : l'exemple est l'ancienne version sans argument de chemin).
   > Décision de fond (PO/DEV) : snapshot figé assumé / lien / génération au release. Reco : régénérer la copie depuis kit/ (pas de copie éditée à la main) pour préserver la source unique.

@@ -150,7 +150,7 @@ Le livrable `kit/` reste **clean** : le dogfood vit dans `dev/`, jamais dans `ki
 - **Archive** (recommandé) : `./make-release.sh` produit `simple-ai.zip` = le seul dossier `simple-ai/`,
   clean et générique, à extraire dans n'importe quel projet. C'est le livrable.
 - **Repo template** : clone ce dépôt et suis [`init.md`](init.md).
-- Évolution prévue : une CLI `init` (`npx`/`uvx simple-ai init`).
+- **CLI** : `uvx simple-ai init` pose `simple-ai/` sans copie manuelle (Python, zéro dépendance) — cf. [`cli/`](cli/). Publication PyPI à venir.
 
 Le livrable est **dénué de toute config propre à un projet** (le backlog part en `local`, `CONFIG.md` est
 un gabarit) : on télécharge, on dépose, on configure chez soi.
