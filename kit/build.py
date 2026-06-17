@@ -101,8 +101,7 @@ def render(epics, tickets) -> str:
 
     # Regroupement par epic (ordre : epics déclarés, puis "sans epic").
     groups: list[tuple[str, str, list]] = []
-    used_ids = [eid for eid in epics]
-    for eid in used_ids:
+    for eid in list(epics):
         items = sorted([t for t in tickets if t["epic"] == eid], key=prio_key)
         if items:
             groups.append((eid, epics[eid]["title"], items))
@@ -127,6 +126,7 @@ def render(epics, tickets) -> str:
                 )
                 ctx = f'<div class="ctx">{rows}</div>'
             why = f'<span class="why">{html.escape(t["why"])}</span>' if t["why"] else ""
+            # NB : EFFORT_RE capture sans le « ~ » (ex. "2h") ; on le ré-ajoute ici à l'affichage.
             effort = f'<span class="effort">~{html.escape(t["effort"])}</span>' if t["effort"] else ""
             cards.append(
                 f'<div class="card" data-state="{t["state"]}" data-prio="{html.escape(t["prio"])}">'

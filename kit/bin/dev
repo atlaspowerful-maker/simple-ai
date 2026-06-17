@@ -19,8 +19,9 @@ if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK" 2>/dev/null)" 2>/dev/null; then
   echo "⚠️  Une session $ROLE semble déjà active (pid $(cat "$LOCK")). Deux DEV sur le même repo = risque de collision."
 fi
 
-# Worktree par session.
-if ! git -C "$ROOT" worktree list --porcelain | grep -q "worktree $(cd "$WT" 2>/dev/null && pwd || echo /dev/null)"; then
+# Worktree par session. On teste l'existence du dossier (pas un grep de sous-chaîne
+# sur `worktree list`, qui ferait un faux positif sur un chemin préfixe).
+if [ ! -d "$WT" ]; then
   if git -C "$ROOT" show-ref --verify --quiet "refs/heads/$BRANCH"; then
     git -C "$ROOT" worktree add "$WT" "$BRANCH"
   else
@@ -28,7 +29,9 @@ if ! git -C "$ROOT" worktree list --porcelain | grep -q "worktree $(cd "$WT" 2>/
   fi
 fi
 
+# Lock best-effort (informationnel), nettoyé à la sortie du shell.
 echo $$ > "$LOCK"
+trap 'rm -f "$LOCK"' EXIT
 cat <<BANNER
 
   ╔══════════════════════════════════════════╗
@@ -41,4 +44,4 @@ cat <<BANNER
 BANNER
 
 cd "$WT"
-exec "${SHELL:-bash}"
+"${SHELL:-bash}"   # pas d'exec : on garde la main pour nettoyer le lock (trap EXIT)

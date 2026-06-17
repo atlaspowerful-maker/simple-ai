@@ -25,6 +25,11 @@ simple-ai/
     └── dev          ← kit/bin/dev       (lanceur session DEV)
 ```
 
+⚠️ **Rends les lanceurs exécutables après copie** (une copie via un outil d'écriture perd le bit `+x`) :
+```
+chmod +x simple-ai/bin/po simple-ai/bin/dev simple-ai/build.py
+```
+
 ## 2. Amorce la doc projet
 
 Interviewe brièvement l'humain (but, périmètre, stack, comment lancer/tester/déployer) et **remplis

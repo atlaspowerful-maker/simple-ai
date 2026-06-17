@@ -16,6 +16,7 @@ if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK" 2>/dev/null)" 2>/dev/null; then
 fi
 
 echo $$ > "$LOCK"
+trap 'rm -f "$LOCK"' EXIT
 cat <<BANNER
 
   ╔══════════════════════════════════════════╗
@@ -29,4 +30,4 @@ cat <<BANNER
 BANNER
 
 cd "$ROOT"
-exec "${SHELL:-bash}"
+"${SHELL:-bash}"   # pas d'exec : on garde la main pour nettoyer le lock (trap EXIT)

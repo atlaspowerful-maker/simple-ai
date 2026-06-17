@@ -48,9 +48,10 @@ simple-ai/bin/po     # session PO  : cadrer, prioriser, traiter les @dev-note
 simple-ai/bin/dev    # session DEV : dépiler par priorité, réaliser, prouver
 ```
 
-Chaque lanceur isole sa session dans un **worktree git dédié** (HEAD/fichiers séparés ; git interdit
-le même checkout deux fois → garde-fou natif contre la contamination entre sessions), affiche une
-**bannière de rôle**, et signale si une autre session du même rôle tourne déjà.
+Le lanceur **DEV** isole sa session dans un **worktree git dédié** (`../<repo>-dev` : HEAD/fichiers
+séparés ; git interdit le même checkout deux fois → garde-fou natif contre la contamination entre
+sessions) ; la **PO** travaille dans la racine — donc un checkout **distinct** de celui du DEV.
+Chaque lanceur affiche une **bannière de rôle** et signale (best-effort) si une autre session du même rôle tourne déjà.
 
 ## Le viewer
 
