@@ -45,6 +45,18 @@
   > Travail (DEV) : reformuler kit/WORKFLOW.md §4 selon (a)/(b). C'est le livrable public → relire avec ce regard (générique, sans réf interne).
   > Prio P2 (PO) : friction confirmée + récurrente, ~1h, et elle frappera le run B (P1, 2-sessions) si §4 reste ambigu → à lever tôt, pas à enterrer en P3.
   > Preuve : §4 lue par un nouveau DEV → il sait qu'il peut exécuter merge+cleanup seul après le go, sans re-demander.
+[P2][todo] Viewer : détails repliables au clic + estimé plus lisible — combler l'écart CONVENTION §6 (« dépliable » promis, rendu à plat) et sortir l'estimé du gris atténué ~2h @epic:dx
+  > Au clic : carte repliée par défaut (titre + pourquoi + badges prio/état/métriques restent visibles = ligne scannable) ; le bloc contexte .ctx se déplie/replie au clic sur la carte. Avec ≥6 lignes de contexte par ticket, le rendu à plat actuel est devenu illisible.
+  > Estimé : ~Nh est rendu en gris atténué (.effort color:dim) → le rendre lisible (badge aligné avec prio/état) ; réel =Nh et écart déjà visibles, garder la cohérence.
+  > Scope : uniquement kit/build.py (TEMPLATE + CSS + petit JS de toggle, stdlib, zéro dépendance). Régénérer dev/backlog.html après. Livrable public → générique, sans réf interne.
+  > Preuve : backlog.html ouvert → liste compacte scannable ; un clic ouvre/ferme le détail d'un ticket ; l'estimé saute aux yeux.
+[P3][todo] Tags libres sur les tickets (#tag) — 2e axe de catégorisation transverse à @epic: (couche/nature : #front #back #infra…), vocabulaire LIBRE choisi par le projet ~3h @epic:core
+  > Décidé (humain) : tag GÉNÉRIQUE et LIBRE (#token alphanum/-), PAS de liste figée Front/Back/Infra ; le framework reste agnostique. Orthogonal à @epic: (epic = thème/feature ; tag = couche/nature).
+  > Syntaxe (reco) : #token dans la zone méta de fin de ligne, au même endroit que @epic: / ~Nh / =Nh, plusieurs autorisés. Ex : [P2][todo] Titre — pourquoi ~2h @epic:core #back #infra
+  > Travail : (1) CONVENTION.md documente le token = contrat ; (2) kit/build.py : le parser extrait les #tags (ancrage fin de ligne comme @epic, AVANT le split titre—pourquoi — attention à l'extraction subtile signalée par C1), render en chips, filtre tag réutilisant le mécanisme f-state/f-prio ; (3) tests parse() (on en a maintenant) : 0 / 1 / N tags + cohabitation epic+réel+estimé ; (4) mention courte PO.md/DEV.md.
+  > Couleur des chips : palette déterministe par hash du nom (zéro config, pas de setup).
+  > Scope (garde-fou) : zéro dépendance, ADDITIF (un ticket sans #tag marche comme avant). Livrable public → générique. Régénérer le viewer après.
+  > Preuve : un ticket #back s'affiche avec sa chip ; le filtre tag masque/montre ; parse() renvoie la liste des tags ; CONVENTION à jour.
 [P3][todo] CLI simple-ai init (uvx, Python) — remplacer le prompt /init par une vraie commande qui pose le dossier simple-ai/ ~5h @epic:dx
   > Décidé (PO) : runtime = uvx. Cohérent avec un framework 100 % Python (build.py, calibrate.py), zéro dépendance Node. Pas de variante npx (garde-fou simple). Le nom de package / distrib suit ce choix.
 [P3][done] build.py dupliqué dans example/ a dérivé — copie antérieure au support du chemin (pourtant done) ; viole la source unique kit/ ~1h =0.5h @epic:dx
