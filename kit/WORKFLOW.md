@@ -46,6 +46,10 @@ Un ticket en cours = une branche. Pas de fourre-tout multi-sujets sur une branch
 - **Qui valide ?** → **l'humain** (c'est ton repo, tu pilotes les deux sessions). Tu donnes le **go** final.
   Tu peux **déléguer la relecture** à un agent dédié (« relis ce diff : bugs, secrets, cohérence, lint »),
   mais la décision de merger reste la tienne.
+- **Décision ≠ exécution.** Distingue deux choses qu'on confond sous le mot « merge » :
+  - **(a) la DÉCISION de merger** — juger le diff bon pour `main` : **toujours humaine**, jamais déléguée.
+  - **(b) l'EXÉCUTION mécanique** — `merge --no-ff` + cleanup (`git worktree remove`, `git branch -d`, §5) :
+    **délégable au DEV dès le go reçu**. Une fois que tu as dit « go », le DEV peut enchaîner sans te re-demander.
 - **Sur quoi porte la relecture ?** : pas de secret/token commité, cohérence avec le reste, restes de debug,
   la preuve que ça marche, message de commit clair.
 - **Forme de la merge request** :
