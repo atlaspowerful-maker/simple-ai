@@ -38,7 +38,7 @@
   > Critère de bascule à documenter : quand passer solo → 2-sessions (taille, besoin réel de parallélisme).
   > Preuve : un nouvel utilisateur démarre et produit un ticket réalisé SANS créer de worktree, en suivant uniquement le README.
 [P2][todo] Tests sur build.parse() — calibrate.py (SA11) en dépend déjà en prod et le repo n'a AUCUN test ; le parser a une extraction fin-de-ligne subtile (epic → =Nh → ~Nh) sans filet ~2h @epic:core
-[P2][todo] Clarifier WORKFLOW §4 : décision de merge vs exécution — le DEV ne sait pas qu'il peut enchaîner merge+cleanup après le go ~1h @epic:dx
+[P2][done] Clarifier WORKFLOW §4 : décision de merge vs exécution — le DEV ne sait pas qu'il peut enchaîner merge+cleanup après le go ~1h =0.5h @epic:dx
   > Friction dogfood remontée pendant SA11. §4 dit « l'humain valide/merge », ce qui se lit comme « le DEV ne touche jamais au merge ».
   > Décidé (humain, confirmé) : distinguer explicitement (a) la DÉCISION de merger = TOUJOURS humaine, de (b) l'EXÉCUTION mécanique
   > (merge --no-ff + cleanup worktree/branche) = DÉLÉGABLE au DEV dès le go reçu. Plus de « reco » à trancher : c'est la doctrine à inscrire.
