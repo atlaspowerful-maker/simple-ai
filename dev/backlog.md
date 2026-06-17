@@ -66,5 +66,5 @@
 [P3][todo] Garde anti-dérive de la copie kit→example — la resync est manuelle, elle redérivera ; décider le mécanisme (snapshot régénéré / lien / check) ~1h @epic:dx
   > Né de la friction « build.py dupliqué a dérivé » : on a corrigé la copie, pas la cause. Sans garde, toute évol de kit/build.py re-divergera.
   > Pistes (PO tranche) : (a) script de regen example/ depuis kit/ appelé à la release ; (b) check qui échoue si copie ≠ kit/ ; (c) assumer un snapshot figé documenté. Garder simple : pas de machinerie si (c) suffit.
-[wishlist][todo] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h @epic:core
+[wishlist][done] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h =0.5h @epic:core
 [wishlist][todo] Publier le viewer en ligne en une commande — exploiter le hook publish de CONFIG.md ~2h @epic:dx

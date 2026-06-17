@@ -52,6 +52,15 @@ def factor(items: list[dict]) -> float | None:
     return statistics.median(c["ratio"] for c in items)
 
 
+def breakdown(items: list[dict], keyfn) -> dict:
+    """Groupe les couples par keyfn → {clé: (nombre, médiane des ratios)}.
+    Sert au raffinement par priorité / par taille (CONVENTION §10)."""
+    groups: dict = {}
+    for c in items:
+        groups.setdefault(keyfn(c), []).append(c["ratio"])
+    return {k: (len(v), statistics.median(v)) for k, v in groups.items()}
+
+
 def load_tickets(backlog: Path) -> list[dict]:
     """Tickets du backlog + ceux d'un éventuel `backlog-archive.md` voisin."""
     sources = [backlog]
@@ -96,6 +105,26 @@ def report(items: list[dict]) -> str:
         )
     else:
         lines.append("→ Tes estimés tombent juste en médiane. Rien à ajuster.")
+
+    # Raffinements (CONVENTION §10 « on peut raffiner par priorité ») — secondaires au
+    # facteur global, affichés seulement s'il y a de quoi distinguer (≥2 groupes).
+    by_prio = breakdown(items, lambda c: c["prio"])
+    if len(by_prio) > 1:
+        lines.append("")
+        lines.append("Par priorité :")
+        for p in sorted(by_prio, key=lambda k: build.PRIO_ORDER.get(k, 99)):
+            n, med = by_prio[p]
+            lines.append(f"  {p:<9} ×{med:.2f}  ({n} ticket{'s' if n > 1 else ''})")
+    by_size = breakdown(items, lambda c: "≤2h" if c["est"] <= 2 else ">2h")
+    if len(by_size) > 1:
+        lines.append("")
+        lines.append("Par taille d'estimé :")
+        for s in ("≤2h", ">2h"):
+            if s in by_size:
+                n, med = by_size[s]
+                lines.append(f"  {s:<9} ×{med:.2f}  ({n} ticket{'s' if n > 1 else ''})")
+
+    lines.append("")
     lines.append("  (mesure indicative — l'humain décide ; cf. CONVENTION.md §10)")
     return "\n".join(lines)
 
