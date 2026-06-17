@@ -23,13 +23,20 @@
 [P2][done] build.py accepte un chemin de backlog — rendre dev/backlog.md sans dupliquer le générateur ~1h @epic:core
 
 [P3][done] Routine de calibration des estimations (SA11) — lit les done (~Nh + =Nh) via build.parse, médiane des ratios réel/estimé = facteur suggéré ; mesure et suggère, l'humain décide ~3h =2h @epic:core
-[P1][todo] Run réel sur un projet jetable + journal de frictions — seule façon de savoir si la boucle est VRAIMENT plus simple que le baseline ~5h @epic:dx
+[P1][done] Run réel sur un projet jetable + journal de frictions — seule façon de savoir si la boucle est VRAIMENT plus simple que le baseline ~5h =2h @epic:dx
   > Problème : aucune preuve. dev/backlog.md est rempli rétroactivement (presque tout en done). On construit à l'aveugle.
   > Cible : mener un mini-projet jetable (non simple-ai, ~5-8 tickets, assez réel pour des remarques DEV→PO, assez petit pour finir) de zéro à un livrable minimal, via la boucle simple-ai.
   > Scope : installer le kit via init.md TEL QUEL (tester l'onboarding réel, noter chaque friction). Dérouler PO crée → DEV dépile → ≥1 remarque DEV→PO → estimé/réel loggés. Produire dev/RUNLOG.md : à chaque étape, fluide / a traîné / a manqué.
   > Sortie : frictions converties en nouveaux tickets backlog (c'est CE run qui dira ce qui manque vraiment).
   > Décidé (PO) : run en 2-sessions (mode existant ; le solo n'est pas encore livré) ; B passe AVANT A pour révéler les frictions qui justifient le solo ; on garde dev/RUNLOG.md seul, le projet jetable reste hors repo.
   > Preuve : un livrable jetable réellement atteint + dev/RUNLOG.md daté + au moins 3 frictions transformées en tickets.
+  > Fait (DEV) : run citation-cli mené (install zip → PO → DEV → livrable + RUNLOG). Frictions F1/F2/F4 → tickets ci-dessous ; F3 (poids worktree en solo) valide le ticket « Mode solo ». Voir dev/RUNLOG.md.
+[P2][todo] init.md ignore l'install par zip (le vrai artefact de release) — §1 décrit la copie manuelle depuis kit/ (qui perd le +x → chmod), le zip n'est mentionné nulle part ~1h @epic:dx #doc
+  > Friction F1 du run réel : `unzip simple-ai.zip` pose `simple-ai/` prêt, bit +x préservé → le chemin le plus simple. init.md décrit l'autre chemin (copie kit/) et son piège chmod, sans jamais citer le zip. Reco : documenter le zip comme chemin d'install par défaut, reléguer la copie manuelle.
+[P2][todo] Manifeste de fichiers d'init.md §1 a dérivé — omet calibrate.py et test_build.py pourtant livrés ; une install par copie manuelle les rate ~0.5h @epic:dx #doc
+  > Friction F2 du run réel. Reco : compléter la liste, ou mieux, la dériver d'une source unique (le contenu réel de kit/) pour qu'elle ne redérive pas — cf. esprit du ticket « garde anti-dérive ».
+[P3][todo] make-release embarque test_build.py dans l'install utilisateur — le test du framework atterrit dans le simple-ai/ de chaque projet (clutter) ~0.5h @epic:dx #test
+  > Friction F4 du run réel : le zip livre test_build.py (test interne de build.parse). calibrate.py, lui, est un outil user légitime → garder. Reco : exclure test_build.py de l'archive (git archive sur un sous-ensemble, ou .gitattributes export-ignore).
 [P1][todo] Mode solo par défaut — une session, deux casquettes, sans worktree : le mode 2-sessions devient une montée en puissance, pas le point d'entrée ~3h @epic:dx
   > Problème : aujourd'hui tout (README, bin/, WORKFLOW) impose 2 sessions + 2 worktrees + pilotage parallèle dès le départ → plus lourd que « j'ouvre une session Claude ». Menace directe l'objectif « simple ».
   > Cible : une voie d'entrée où UNE session porte PO puis DEV tour à tour, sur le backlog local, dans la racine, zéro worktree. On monte vers 2-sessions seulement quand le parallélisme est réellement utile.
