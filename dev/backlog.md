@@ -70,8 +70,9 @@
   > Confirmé divergent (diff kit/build.py ↔ example/demo-todo/simple-ai/build.py : l'exemple est l'ancienne version sans argument de chemin).
   > Décision de fond (PO/DEV) : snapshot figé assumé / lien / génération au release. Reco : régénérer la copie depuis kit/ (pas de copie éditée à la main) pour préserver la source unique.
   > Fait (DEV) : copie resynchronisée depuis kit/build.py (identique) + backlog.html de l'exemple régénéré. Reste : choisir le mécanisme durable → ticket de suivi ci-dessous.
-[P3][todo] Garde anti-dérive de la copie kit→example — la resync est manuelle, elle redérivera ; décider le mécanisme (snapshot régénéré / lien / check) ~1h @epic:dx
+[P3][done] Garde anti-dérive de la copie kit→example — la resync est manuelle, elle redérivera ; décider le mécanisme (snapshot régénéré / lien / check) ~1h =0.5h @epic:dx
   > Né de la friction « build.py dupliqué a dérivé » : on a corrigé la copie, pas la cause. Sans garde, toute évol de kit/build.py re-divergera.
   > Pistes (PO tranche) : (a) script de regen example/ depuis kit/ appelé à la release ; (b) check qui échoue si copie ≠ kit/ ; (c) assumer un snapshot figé documenté. Garder simple : pas de machinerie si (c) suffit.
+  > Fait (DEV) : choix (c) — example/README.md documente que demo-todo/simple-ai/ est un snapshot du kit (ne pas éditer à la main, resync depuis kit/). Zéro machinerie, garde-fou « simple » respecté.
 [wishlist][done] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h =0.5h @epic:core
 [wishlist][todo] Publier le viewer en ligne en une commande — exploiter le hook publish de CONFIG.md ~2h @epic:dx
