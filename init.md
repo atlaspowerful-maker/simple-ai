@@ -27,7 +27,9 @@ simple-ai/
     └── dev          ← kit/bin/dev       (lanceur session DEV)
 ```
 
-⚠️ **Rends les lanceurs exécutables après copie** (une copie via un outil d'écriture perd le bit `+x`) :
+⚠️ **Si tu as installé par copie** (pas par l'archive `simple-ai.zip`, qui préserve le bit `+x`) :
+une copie via un outil d'écriture **perd le `+x`** des lanceurs. Rends-les exécutables — sinon `bin/po` /
+`bin/dev` refuseront de se lancer :
 ```
 chmod +x simple-ai/bin/po simple-ai/bin/dev simple-ai/build.py
 ```
@@ -53,19 +55,24 @@ python3 simple-ai/build.py
 
 → crée `simple-ai/backlog.html` (vide pour l'instant). Vérifie qu'il s'ouvre dans un navigateur.
 
-## 4. Branche-toi à l'agent du repo
+## 4. Branche-toi à l'agent du repo (ne saute pas cette étape)
 
-Pour que les sessions futures sachent qu'il y a un workflow PO/DEV :
-- **Claude Code** : ajoute dans le `CLAUDE.md` du repo (crée-le s'il n'existe pas) une ligne :
-  *« Workflow PO/DEV : voir `simple-ai/PO.md` et `simple-ai/DEV.md`. Backlog : `simple-ai/backlog.md`. »*
+C'est le **pivot** : sans elle, le kit est posé mais **invisible** pour tes futures sessions. **Fais-la
+systématiquement.**
+- **Claude Code** : ajoute dans le `CLAUDE.md` du repo (crée-le s'il n'existe pas) ces deux lignes :
+  *« Workflow PO/DEV piloté par simple-ai : voir `simple-ai/PO.md`, `simple-ai/DEV.md`, `simple-ai/CONVENTION.md`. Backlog : `simple-ai/backlog.md`. »*
+  *« Par défaut **solo** : une session porte les deux casquettes tour à tour (annonce la casquette, relis le backlog avant d'écrire). Deux sessions = montée en puissance via `simple-ai/bin/po` · `bin/dev`. »*
 - **Codex** : `simple-ai/AGENTS.md` joue déjà ce rôle ; pointe le `AGENTS.md` racine vers lui si besoin.
 
 ## 5. Rends la main
 
-Résume en 3 lignes ce qui a été installé, et indique comment lancer les deux sessions :
-```
-simple-ai/bin/po     # session PO (cadrer, prioriser)
-simple-ai/bin/dev    # session DEV (dépiler, réaliser)
-```
+Résume en 3 lignes ce qui a été installé, et indique comment démarrer :
+- **Solo (le défaut)** — reste dans cette session (ou ouvre-en une à la racine) et demande-lui d'être
+  **PO** pour cadrer le backlog, puis **DEV** pour dépiler. Rien d'autre à lancer, pas de worktree.
+- **Deux sessions** (seulement si besoin de parallélisme) :
+  ```
+  simple-ai/bin/po     # session PO (cadrer, prioriser)
+  simple-ai/bin/dev    # session DEV (dépiler, réaliser)
+  ```
 
 C'est tout. Le reste du workflow vit dans `PO.md`, `DEV.md` et `CONVENTION.md`.
