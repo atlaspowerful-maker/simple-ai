@@ -45,7 +45,7 @@
   > Travail (DEV) : reformuler kit/WORKFLOW.md §4 selon (a)/(b). C'est le livrable public → relire avec ce regard (générique, sans réf interne).
   > Prio P2 (PO) : friction confirmée + récurrente, ~1h, et elle frappera le run B (P1, 2-sessions) si §4 reste ambigu → à lever tôt, pas à enterrer en P3.
   > Preuve : §4 lue par un nouveau DEV → il sait qu'il peut exécuter merge+cleanup seul après le go, sans re-demander.
-[P2][todo] Viewer : détails repliables au clic + estimé plus lisible — combler l'écart CONVENTION §6 (« dépliable » promis, rendu à plat) et sortir l'estimé du gris atténué ~2h @epic:dx
+[P2][done] Viewer : détails repliables au clic + estimé plus lisible — combler l'écart CONVENTION §6 (« dépliable » promis, rendu à plat) et sortir l'estimé du gris atténué ~2h =1h @epic:dx
   > Au clic : carte repliée par défaut (titre + pourquoi + badges prio/état/métriques restent visibles = ligne scannable) ; le bloc contexte .ctx se déplie/replie au clic sur la carte. Avec ≥6 lignes de contexte par ticket, le rendu à plat actuel est devenu illisible.
   > Estimé : ~Nh est rendu en gris atténué (.effort color:dim) → le rendre lisible (badge aligné avec prio/état) ; réel =Nh et écart déjà visibles, garder la cohérence.
   > Scope : uniquement kit/build.py (TEMPLATE + CSS + petit JS de toggle, stdlib, zéro dépendance). Régénérer dev/backlog.html après. Livrable public → générique, sans réf interne.
