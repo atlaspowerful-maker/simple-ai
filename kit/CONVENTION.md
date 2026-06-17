@@ -82,6 +82,23 @@ Elles sont **rattachées au ticket** par le parser (affichées en panneau dépli
 [P2][todo] Reset mot de passe — support submergé de demandes ~2h @epic:auth
 ```
 
+### Tags libres (`#tag`) — 2e axe de catégorisation (optionnel)
+
+En plus de l'epic (thème/feature), une story peut porter des **tags libres** `#token` pour une **autre
+dimension** transverse — la couche ou la nature du travail (`#front`, `#back`, `#infra`, `#doc`…). Le
+vocabulaire est **libre et propre à ton projet** : le framework n'impose **aucune liste figée**.
+
+- Un tag = **`#token`** (alphanumérique et `-`), placé dans la **zone méta de fin de ligne**, au même
+  endroit que `@epic:` / `~Nh` / `=Nh`. **Plusieurs autorisés** sur une même story.
+- **Orthogonal à `@epic:`** : l'epic regroupe par thème, le tag catégorise par couche/nature.
+- Le viewer affiche chaque tag en **chip** (couleur déterministe par nom, zéro config) et fournit un
+  **filtre par tag** (même mécanisme que les filtres prio/état). Un ticket **sans** tag marche comme avant.
+
+```
+[P2][todo] Endpoint /login — pas d'API d'auth ~3h @epic:auth #back #infra
+[P3][todo] Écran de connexion — maquette à intégrer ~2h @epic:auth #front
+```
+
 ## 8. Édition atomique (impératif)
 
 Deux sessions (PO et DEV) écrivent dans `backlog.md`. **Toute écriture doit être atomique** :

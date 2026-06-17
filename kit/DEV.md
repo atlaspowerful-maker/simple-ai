@@ -32,7 +32,8 @@ Si tu détectes, **avant ou pendant** :
 
 ## 3. Dépile par priorité
 
-1. Prends la story **`todo` la mieux priorisée** qui n'est pas bloquée.
+1. Prends la story **`todo` la mieux priorisée** qui n'est pas bloquée. (Le viewer filtre par epic, prio,
+   état **et tags `#tag`** — utile pour cibler une couche, cf. `CONVENTION.md §7`.)
 2. Passe-la **`progress`** (édition atomique, cf. `CONVENTION.md` §8).
 3. Réalise-la.
 4. **Prouve-la** (test, exécution, capture — selon le projet) puis passe-la **`done`**. Jamais de `done` non prouvé.

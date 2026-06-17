@@ -109,6 +109,46 @@ class TitreAvecTiret(unittest.TestCase):
         self.assertEqual(t["why"], "B — C")
 
 
+class TagsLibres(unittest.TestCase):
+    """#tag : 0 / 1 / N tags + cohabitation avec epic, réel, estimé (cf. CONVENTION §7)."""
+
+    def test_zero_tag(self):
+        t = one("[P2][todo] T — w ~2h @epic:core")
+        self.assertEqual(t["tags"], [])
+        self.assertEqual(t["why"], "w")  # rien ne fuit
+
+    def test_un_tag(self):
+        t = one("[P2][todo] T — w #back")
+        self.assertEqual(t["tags"], ["back"])
+        self.assertEqual(t["why"], "w")
+
+    def test_plusieurs_tags(self):
+        t = one("[P2][todo] T — w #back #infra")
+        self.assertEqual(t["tags"], ["back", "infra"])
+        self.assertEqual(t["why"], "w")
+
+    def test_tag_avec_tiret(self):
+        t = one("[P3][todo] T — w #ci-cd")
+        self.assertEqual(t["tags"], ["ci-cd"])
+
+    def test_cohabitation_epic_estime_reel_tags(self):
+        # Le cas qui couvre tout l'ordre d'extraction d'un coup.
+        t = one("[P2][done] Titre — pourquoi ~2h =1h @epic:core #back #infra")
+        self.assertEqual(t["tags"], ["back", "infra"])
+        self.assertEqual(t["epic"], "core")
+        self.assertEqual(t["est"], "2")
+        self.assertEqual(t["real"], "1")
+        self.assertEqual(t["title"], "Titre")
+        self.assertEqual(t["why"], "pourquoi")
+        for residu in ("#", "@epic", "~", "="):
+            self.assertNotIn(residu, t["why"])
+
+    def test_tag_deterministe(self):
+        # Couleur stable entre deux appels (zéro config, pas de hash randomisé).
+        self.assertEqual(build.tag_hue("back"), build.tag_hue("back"))
+        self.assertTrue(0 <= build.tag_hue("infra") < 360)
+
+
 class ContexteEtEpics(unittest.TestCase):
     def test_lignes_de_contexte_rattachees(self):
         txt = ("[P2][todo] T — w\n"
