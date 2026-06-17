@@ -47,8 +47,12 @@
   > Preuve : §4 lue par un nouveau DEV → il sait qu'il peut exécuter merge+cleanup seul après le go, sans re-demander.
 [P3][todo] CLI simple-ai init (uvx, Python) — remplacer le prompt /init par une vraie commande qui pose le dossier simple-ai/ ~5h @epic:dx
   > Décidé (PO) : runtime = uvx. Cohérent avec un framework 100 % Python (build.py, calibrate.py), zéro dépendance Node. Pas de variante npx (garde-fou simple). Le nom de package / distrib suit ce choix.
-[P3][todo] build.py dupliqué dans example/ a dérivé — copie antérieure au support du chemin (pourtant done) ; viole la source unique kit/ ~1h @epic:dx
+[P3][done] build.py dupliqué dans example/ a dérivé — copie antérieure au support du chemin (pourtant done) ; viole la source unique kit/ ~1h =0.5h @epic:dx
   > Confirmé divergent (diff kit/build.py ↔ example/demo-todo/simple-ai/build.py : l'exemple est l'ancienne version sans argument de chemin).
   > Décision de fond (PO/DEV) : snapshot figé assumé / lien / génération au release. Reco : régénérer la copie depuis kit/ (pas de copie éditée à la main) pour préserver la source unique.
+  > Fait (DEV) : copie resynchronisée depuis kit/build.py (identique) + backlog.html de l'exemple régénéré. Reste : choisir le mécanisme durable → ticket de suivi ci-dessous.
+[P3][todo] Garde anti-dérive de la copie kit→example — la resync est manuelle, elle redérivera ; décider le mécanisme (snapshot régénéré / lien / check) ~1h @epic:dx
+  > Né de la friction « build.py dupliqué a dérivé » : on a corrigé la copie, pas la cause. Sans garde, toute évol de kit/build.py re-divergera.
+  > Pistes (PO tranche) : (a) script de regen example/ depuis kit/ appelé à la release ; (b) check qui échoue si copie ≠ kit/ ; (c) assumer un snapshot figé documenté. Garder simple : pas de machinerie si (c) suffit.
 [wishlist][todo] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h @epic:core
 [wishlist][todo] Publier le viewer en ligne en une commande — exploiter le hook publish de CONFIG.md ~2h @epic:dx
