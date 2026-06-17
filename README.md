@@ -41,6 +41,11 @@ entre elles : leur **seul** point de rendez-vous est `backlog.md`.
 
 ## Installation
 
+> **Ce que tu déposes dans ton projet = le dossier `simple-ai/` (11 fichiers), PAS tout ce dépôt.**
+> Ce repo contient aussi le développement de simple-ai (`dev/`, `example/`, `make-release.sh`…) qui
+> **ne va jamais** dans ton projet. Passe par l'**archive `simple-ai.zip`** (page Releases) : elle ne
+> contient que le dossier `simple-ai/`. Ne clone pas le repo pour l'installer.
+
 Deux façons, au choix :
 
 - **Archive (le plus simple)** — télécharge `simple-ai.zip` (page Releases, ou `./make-release.sh`),
