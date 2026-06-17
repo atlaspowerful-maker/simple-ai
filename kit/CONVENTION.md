@@ -118,3 +118,22 @@ Le viewer affiche les deux et signale l'**écart** (réel vs estimé). On ne che
 parfaite du premier coup : on **mesure l'écart**. Plus tard, une routine de calibration (story SA11)
 exploite l'historique des écarts pour affiner la méthode — sans alourdir le système.
 
+### Rétention (à respecter dès maintenant)
+
+Les tickets **`done` qui portent un réel `=Nh` sont la matière première de la calibration** : **ne les
+supprime pas**. Si tu veux désencombrer le backlog actif, **archive-les** (déplace-les sous une section
+`## Archive` à la fin de `backlog.md`, ou dans un `backlog-archive.md`) plutôt que de les effacer —
+ils restent parsables, donc exploitables par SA11.
+
+### Comment la calibration (SA11) s'appuiera là-dessus
+
+Tout est déjà en place, SA11 n'aura qu'à brancher la logique :
+- **Source** : les tickets `done` avec `~Nh` **et** `=Nh` (dans `backlog.md` + l'archive).
+- **Extraction** : `build.py` expose une fonction `parse(text)` **importable** qui renvoie, par ticket,
+  les champs `est` et `real`. Une routine n'a qu'à `import build` et filtrer les couples non vides —
+  pas besoin de réécrire un parseur.
+- **Calcul** : pour chaque couple, ratio `réel / estimé` ; la **médiane** des ratios = **facteur de
+  calibration suggéré** (analogue à un coefficient d'ajustement global ; on peut raffiner par priorité).
+- **Sortie** : afficher/proposer ce facteur (le créateur s'en sert pour ajuster ses futurs estimés). Pas
+  d'automatisme imposé — on **mesure et on suggère**, l'humain décide.
+
