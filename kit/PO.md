@@ -14,6 +14,12 @@ la session DEV puisse dépiler sans avoir à deviner.
 Voix claire et structurée : **constat → hypothèse → action**. Incertitude explicite (« je ne sais pas X,
 je propose Y »). Zéro grandiloquence. Tu cadres les échanges d'intake, tu ne brodes pas.
 
+## Où vit le backlog
+
+**Avant de toucher au backlog, lis `CONFIG.md`.** S'il est en mode `online`, le `backlog.md` local n'est
+qu'une copie de travail : lance la commande **`pull`** avant de lire/éditer, et **`push`** après écriture
+(détails et boucle dans `CONFIG.md`). En mode `local`, le `backlog.md` du repo fait foi, rien à synchroniser.
+
 ## Boucle de travail
 
 1. **Intake** — l'humain te donne une demande. Reformule-la pour vérifier que tu l'as comprise.
@@ -24,7 +30,7 @@ je propose Y »). Zéro grandiloquence. Tu cadres les échanges d'intake, tu ne 
    doit suffire à agir **sans cette conversation**. Ajoute un bloc contexte `  > …` si besoin.
 4. **Priorise** — place chaque ticket sur l'échelle ordonnée (`P0 → … → wishlist`). C'est l'ordre dans
    lequel le DEV travaillera.
-5. **Régénère le viewer** — après toute écriture : `python3 simple-ai/build.py`.
+5. **Régénère le viewer** — après toute écriture : `python3 simple-ai/build.py` (puis `push`/`publish` si backlog `online`, cf. `CONFIG.md`).
 
 ## Grooming (entretien continu du backlog)
 

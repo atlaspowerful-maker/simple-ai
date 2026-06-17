@@ -19,7 +19,9 @@ d'édition atomique sont dans **`simple-ai/CONVENTION.md`**. Tout le monde s'y c
 
 ## Le backlog & le viewer
 
-- Backlog unique : `simple-ai/backlog.md`.
+- **Où vit le backlog** : lis `simple-ai/CONFIG.md`. En mode `local`, c'est `simple-ai/backlog.md`. En mode
+  `online`, c'est une source distante partagée → lance `pull` avant de lire, `push` après écriture (cf. CONFIG.md).
+- Backlog (copie de travail) : `simple-ai/backlog.md`.
 - Après **chaque** changement du backlog : `python3 simple-ai/build.py` pour régénérer `simple-ai/backlog.html`.
 - Édition **atomique** impérative : relire avant d'écrire, temp + rename (PO et DEV écrivent dans le même fichier).
 

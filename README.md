@@ -26,14 +26,22 @@ lisibles, un viewer HTML statique, **zéro serveur** qui tourne.
 
 ## Installation
 
-`simple-ai` s'installe via le prompt [`init.md`](init.md) : ouvre-le dans une session IA lancée
-à la racine de ton repo et demande à l'IA de l'exécuter. Elle dépose `simple-ai/` dans ton projet :
+Deux façons, au choix :
+
+- **Archive (le plus simple)** — télécharge `simple-ai.zip` (page Releases, ou `./make-release.sh`),
+  **extrais-la à la racine de ton projet** → tu obtiens un dossier `simple-ai/` prêt à l'emploi. Puis
+  ouvre une session IA et demande-lui de remplir `simple-ai/PROJECT.md` + `CONFIG.md` (mini-interview).
+- **Prompt `/init`** — ouvre [`init.md`](init.md) dans une session IA lancée à la racine de ton repo et
+  demande-lui de l'exécuter : elle dépose `simple-ai/`, t'interviewe, génère le viewer.
+
+Dans les deux cas, `simple-ai/` contient :
 
 | Fichier | Rôle | Édité par |
 |---------|------|-----------|
 | `simple-ai/PO.md` | Playbook casquette **PO** | l'humain (rare) |
 | `simple-ai/DEV.md` | Playbook casquette **DEV** | l'humain (rare) |
 | `simple-ai/CONVENTION.md` | **Le contrat** : format de ticket, prio, états, remarque DEV→PO, édition atomique | l'humain (rare) |
+| `simple-ai/CONFIG.md` | **Où vit le backlog** : `local` (dans le repo) ou `online` (distant/partagé) | l'humain (à l'install) |
 | `simple-ai/AGENTS.md` | Point d'entrée pour Codex & agents lisant `AGENTS.md` | l'humain (rare) |
 | `simple-ai/backlog.md` | **Le backlog unique** — canal de coordination PO ⇄ DEV | PO + DEV (à chaud) |
 | `simple-ai/build.py` | Générateur `backlog.md` → `backlog.html` | jamais (outil) |
@@ -71,6 +79,16 @@ Système minimal en deux temps (détail : [`kit/CONVENTION.md`](kit/CONVENTION.m
 un **estimé** `~Nh`, l'exécutant logge le **réel** `=Nh` à la clôture. Le viewer affiche l'**écart**
 (réel − estimé). On ne vise pas l'estimation parfaite — on mesure l'écart pour s'auto-corriger (calibration : SA11).
 
+## Backlog local ou en ligne
+
+Par défaut le backlog est **local** : le fichier `simple-ai/backlog.md` dans ton repo. Mais il peut vivre
+**en ligne** — une source distante partagée (un fichier sur un serveur, un gist, un doc partagé…) que
+plusieurs projets/sessions lisent, avec un viewer publiable. Tu déclares ça dans
+[`kit/CONFIG.md`](kit/CONFIG.md) : passe en `backlog: online` et renseigne **tes** commandes `pull` /
+`push` / `publish`. Le framework reste agnostique — il ne connaît que `backlog.md` (copie de travail) ;
+c'est toi qui le branches à ta source. **Aucune config de ce genre n'est livrée dans l'archive** : elle
+part clean en `local`, tu la configures chez toi.
+
 ## Mode TokenBurn (optionnel)
 
 Un run où le DEV **dépile tout le backlog en autonomie, sans interaction humaine**, jusqu'à épuisement
@@ -84,8 +102,13 @@ un `backlog.md` rempli (epics, états, une remarque DEV→PO) et son `backlog.ht
 
 ## Distribution
 
-Aujourd'hui : **repo template** — clone ce dépôt, puis suis [`init.md`](init.md) dans ton projet.
-Évolution prévue : une CLI `init` (`npx`/`uvx simple-ai init`).
+- **Archive** (recommandé) : `./make-release.sh` produit `simple-ai.zip` = le seul dossier `simple-ai/`,
+  clean et générique, à extraire dans n'importe quel projet. C'est le livrable.
+- **Repo template** : clone ce dépôt et suis [`init.md`](init.md).
+- Évolution prévue : une CLI `init` (`npx`/`uvx simple-ai init`).
+
+Le livrable est **dénué de toute config propre à un projet** (le backlog part en `local`, `CONFIG.md` est
+un gabarit) : on télécharge, on dépose, on configure chez soi.
 
 ## Cibles IA
 

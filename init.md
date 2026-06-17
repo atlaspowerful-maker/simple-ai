@@ -16,6 +16,7 @@ simple-ai/
 ├── PO.md            ← kit/PO.md         (playbook casquette PO)
 ├── DEV.md           ← kit/DEV.md        (playbook casquette DEV)
 ├── CONVENTION.md    ← kit/CONVENTION.md (le contrat de format)
+├── CONFIG.md        ← kit/CONFIG.md     (où vit le backlog : local ou online)
 ├── AGENTS.md        ← kit/AGENTS.md     (point d'entrée Codex & co)
 ├── build.py         ← kit/build.py      (générateur du viewer)
 ├── backlog.md       ← kit/backlog.md    (gabarit vide, à personnaliser)
@@ -34,6 +35,14 @@ chmod +x simple-ai/bin/po simple-ai/bin/dev simple-ai/build.py
 
 Interviewe brièvement l'humain (but, périmètre, stack, comment lancer/tester/déployer) et **remplis
 `simple-ai/PROJECT.md`** avec ses réponses. Remplace `<NOM DU PROJET>` dans `PROJECT.md` et `backlog.md`.
+
+## 2bis. Choisis où vit le backlog (`CONFIG.md`)
+
+Demande à l'humain : **backlog local ou en ligne ?**
+- **Local** (défaut) — laisse `CONFIG.md` tel quel (`backlog: local`). Le backlog vit dans le repo. Rien de plus.
+- **En ligne** — le backlog est partagé/distant (serveur, gist, doc partagé…). Passe `CONFIG.md` en
+  `backlog: online` et renseigne avec l'humain les commandes `pull` / `push` / `publish` (ses accès à lui).
+  N'écris **jamais** de secret dans `CONFIG.md` (utilise ses clés/CLI déjà configurées).
 
 ## 3. Génère le viewer une première fois
 

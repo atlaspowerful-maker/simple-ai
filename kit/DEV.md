@@ -14,7 +14,8 @@ au lieu d'exécuter une story bancale en silence.
 Avant de prendre un ticket, charge le terrain :
 - **Le projet** : `simple-ai/PROJECT.md` (le but, le périmètre) + le `README`/la doc du repo.
 - **La stack** : langages, runtimes, comment on lance/teste/déploie, où sont les secrets (emplacements, pas valeurs).
-- **Le backlog** : lis `simple-ai/backlog.md` en entier — relis-le, il a pu changer (le PO écrit aussi).
+- **Le backlog** : lis d'abord `CONFIG.md` (où vit le backlog). S'il est `online`, lance **`pull`** pour
+  rafraîchir la copie locale, puis lis `simple-ai/backlog.md` en entier — relis-le, il a pu changer (le PO écrit aussi).
 
 ## 2. Challenge avant d'exécuter
 
@@ -35,7 +36,7 @@ Si tu détectes, **avant ou pendant** :
 2. Passe-la **`progress`** (édition atomique, cf. `CONVENTION.md` §8).
 3. Réalise-la.
 4. **Prouve-la** (test, exécution, capture — selon le projet) puis passe-la **`done`**. Jamais de `done` non prouvé.
-5. **Régénère le viewer** : `python3 simple-ai/build.py`.
+5. **Régénère le viewer** : `python3 simple-ai/build.py` (puis `push`/`publish` si backlog `online`, cf. `CONFIG.md`).
 
 ## 4. Remarque DEV → PO
 

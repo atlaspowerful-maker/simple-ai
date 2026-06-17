@@ -97,7 +97,11 @@ python3 simple-ai/build.py
 ```
 
 → régénère `simple-ai/backlog.html`. C'est une consigne portée par `PO.md` et `DEV.md`.
-Pas de serveur qui tourne : le viewer est un fichier statique qu'on ouvre dans un navigateur.
+Pas de serveur qui tourne : le viewer est un fichier statique qu'on ouvre dans un navigateur
+(ou qu'on **publie en ligne** si le backlog est en mode `online` — cf. `CONFIG.md`).
+
+> **Où vit le backlog** (local dans le repo, ou online/partagé) est déclaré dans `CONFIG.md`.
+> En mode `online`, `backlog.md` est une copie de travail : `pull` avant de lire, `push` après écriture.
 
 ## 10. Estimation : estimé (`~Nh`) + réel (`=Nh`)
 
