@@ -58,16 +58,17 @@ def parse(text: str):
         m = TICKET_RE.match(line)
         if m:
             rest = m["rest"]
-            effort = ""
-            me = EFFORT_RE.search(rest)
-            if me:
-                effort = me.group(1)
-                rest = rest[: me.start()].rstrip()
+            # L'epic d'abord (peut suivre l'effort), puis l'effort en fin de ligne.
             epic_id = ""
             mr = EPICREF_RE.search(rest)
             if mr:
                 epic_id = mr["id"]
                 rest = (rest[: mr.start()] + rest[mr.end():]).rstrip()
+            effort = ""
+            me = EFFORT_RE.search(rest)
+            if me:
+                effort = me.group(1)
+                rest = rest[: me.start()].rstrip()
             if " — " in rest:
                 title, why = rest.split(" — ", 1)
             else:
