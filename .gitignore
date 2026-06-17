@@ -10,3 +10,6 @@ __pycache__/
 
 # Archive générée
 simple-ai.zip
+
+# Viewer généré du dogfood (régénéré à la demande)
+dev/backlog.html

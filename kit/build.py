@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
 """simple-ai — générateur du viewer.
 
-Parse `backlog.md` (dans le même dossier que ce script) et produit `backlog.html`,
+Parse un `backlog.md` et produit le `backlog.html` correspondant (à côté du backlog),
 un viewer statique : tickets, contexte dépliable, états, filtres prio/état, lien PROJECT.md.
 
 Aucune dépendance externe (stdlib uniquement). À relancer après CHAQUE changement du backlog :
-    python3 simple-ai/build.py
+    python3 simple-ai/build.py                  # rend le backlog.md à côté du script
+    python3 simple-ai/build.py chemin/backlog.md  # rend un backlog précis (→ chemin/backlog.html)
 """
 from __future__ import annotations
 
 import html
 import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-BACKLOG = HERE / "backlog.md"
-OUTPUT = HERE / "backlog.html"
+# Backlog : argument optionnel, sinon celui à côté du script. Le HTML est écrit à côté du backlog.
+BACKLOG = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else HERE / "backlog.md"
+OUTPUT = BACKLOG.with_suffix(".html")
 
 # Ordre des priorités (cf. CONVENTION.md §3). Inconnu = relégué en fin.
 PRIO_ORDER = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, "wishlist": 4}

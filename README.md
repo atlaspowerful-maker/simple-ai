@@ -116,6 +116,13 @@ des crédits. Les tickets qui demandent une décision, une action humaine, ou qu
 [`example/demo-todo/`](example/demo-todo/) est un projet de démonstration de bout en bout :
 un `backlog.md` rempli (epics, états, une remarque DEV→PO) et son `backlog.html` généré.
 
+## Dogfooding
+
+simple-ai **se développe avec simple-ai**. Son propre backlog vit dans [`dev/backlog.md`](dev/backlog.md),
+géré par les casquettes du kit (`kit/PO.md` / `kit/DEV.md`) et rendu par son propre générateur
+(`python3 kit/build.py dev/backlog.md`). C'est à la fois le meilleur test du framework et un exemple réel.
+Le livrable `kit/` reste **clean** : le dogfood vit dans `dev/`, jamais dans `kit/`.
+
 ## Distribution
 
 - **Archive** (recommandé) : `./make-release.sh` produit `simple-ai.zip` = le seul dossier `simple-ai/`,
