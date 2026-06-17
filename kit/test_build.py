@@ -143,6 +143,15 @@ class TagsLibres(unittest.TestCase):
         for residu in ("#", "@epic", "~", "="):
             self.assertNotIn(residu, t["why"])
 
+    def test_diese_dans_le_titre_nest_pas_un_tag(self):
+        # Régression : un « #mot » DANS le titre (pas en fin de ligne) ne doit pas être
+        # capturé comme tag — sinon le titre est corrompu. Cas vécu : « (#tag) ».
+        t = one("[P3][done] Tags libres sur les tickets (#tag) — 2e axe ~3h")
+        self.assertEqual(t["tags"], [])
+        self.assertEqual(t["title"], "Tags libres sur les tickets (#tag)")
+        self.assertEqual(t["why"], "2e axe")
+        self.assertEqual(t["est"], "3")
+
     def test_tag_deterministe(self):
         # Couleur stable entre deux appels (zéro config, pas de hash randomisé).
         self.assertEqual(build.tag_hue("back"), build.tag_hue("back"))

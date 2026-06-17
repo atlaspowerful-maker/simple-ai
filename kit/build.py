@@ -32,7 +32,7 @@ CONT_RE = re.compile(r"^\s{2,}>\s?(?P<text>.*)$")
 EFFORT_RE = re.compile(r"\s*~([0-9.]+)h\s*$")   # estimé (créateur)
 REAL_RE = re.compile(r"\s*=([0-9.]+)h\s*$")      # réel (exécutant, à la clôture)
 EPICREF_RE = re.compile(r"\s*@epic:(?P<id>\S+)\s*")
-TAG_RE = re.compile(r"\s*#(?P<tag>[\w-]+)")       # tag libre (couche/nature), cf. CONVENTION §7
+TAG_RE = re.compile(r"\s*#(?P<tag>[\w-]+)\s*$")   # tag libre en FIN de ligne, cf. CONVENTION §7
 
 
 def parse(text: str):
@@ -72,9 +72,15 @@ def parse(text: str):
             if mr:
                 epic_id = mr["id"]
                 rest = (rest[: mr.start()] + rest[mr.end():]).rstrip()
-            tags = TAG_RE.findall(rest)          # vocabulaire libre, plusieurs autorisés
-            if tags:
-                rest = TAG_RE.sub("", rest).rstrip()
+            # Tags ancrés en FIN, retirés un par un (de droite à gauche). L'ancrage `$`
+            # évite de capturer un « #mot » présent dans le titre/pourquoi (ex. « (#tag) »).
+            tags: list[str] = []
+            while True:
+                mt = TAG_RE.search(rest)
+                if not mt:
+                    break
+                tags.insert(0, mt["tag"])
+                rest = rest[: mt.start()].rstrip()
             real = ""
             mrl = REAL_RE.search(rest)
             if mrl:
