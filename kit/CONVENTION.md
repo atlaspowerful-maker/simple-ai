@@ -125,15 +125,16 @@ supprime pas**. Si tu veux désencombrer le backlog actif, **archive-les** (dép
 `## Archive` à la fin de `backlog.md`, ou dans un `backlog-archive.md`) plutôt que de les effacer —
 ils restent parsables, donc exploitables par SA11.
 
-### Comment la calibration (SA11) s'appuiera là-dessus
+### La calibration (SA11) — `calibrate.py`
 
-Tout est déjà en place, SA11 n'aura qu'à brancher la logique :
-- **Source** : les tickets `done` avec `~Nh` **et** `=Nh` (dans `backlog.md` + l'archive).
+La routine existe : **`python3 simple-ai/calibrate.py [chemin/backlog.md]`**. Elle s'appuie sur ce format :
+- **Source** : les tickets `done` avec `~Nh` **et** `=Nh` (dans `backlog.md` + un éventuel `backlog-archive.md` voisin).
 - **Extraction** : `build.py` expose une fonction `parse(text)` **importable** qui renvoie, par ticket,
-  les champs `est` et `real`. Une routine n'a qu'à `import build` et filtrer les couples non vides —
-  pas besoin de réécrire un parseur.
+  les champs `est` et `real`. `calibrate.py` fait `import build` et filtre les couples non vides —
+  pas de parseur dupliqué.
 - **Calcul** : pour chaque couple, ratio `réel / estimé` ; la **médiane** des ratios = **facteur de
-  calibration suggéré** (analogue à un coefficient d'ajustement global ; on peut raffiner par priorité).
-- **Sortie** : afficher/proposer ce facteur (le créateur s'en sert pour ajuster ses futurs estimés). Pas
-  d'automatisme imposé — on **mesure et on suggère**, l'humain décide.
+  calibration suggéré** (coefficient d'ajustement global ; raffiner par priorité est une suite séparée).
+- **Sortie** : affiche les couples et propose le facteur (le créateur s'en sert pour ajuster ses futurs
+  estimés). Pas d'automatisme imposé — on **mesure et on suggère**, l'humain décide. Si aucun couple
+  exploitable, elle le dit clairement et n'invente rien.
 
