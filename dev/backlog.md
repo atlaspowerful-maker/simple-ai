@@ -78,5 +78,16 @@
   > Né de la friction « build.py dupliqué a dérivé » : on a corrigé la copie, pas la cause. Sans garde, toute évol de kit/build.py re-divergera.
   > Pistes (PO tranche) : (a) script de regen example/ depuis kit/ appelé à la release ; (b) check qui échoue si copie ≠ kit/ ; (c) assumer un snapshot figé documenté. Garder simple : pas de machinerie si (c) suffit.
   > Fait (DEV) : choix (c) — example/README.md documente que demo-todo/simple-ai/ est un snapshot du kit (ne pas éditer à la main, resync depuis kit/). Zéro machinerie, garde-fou « simple » respecté.
+
+[P1][todo] Boucle git locale et multi-worktrees (SA12) — séquence canonique pull→relire→éditer atomiquement→build→commit→push→merge ff-only ; cycle court par session ; l'atomicité fichier ne propage rien entre worktrees ~3h @epic:core
+[P2][todo] Vérifier le redéploiement après MAJ du framework (SA13) — preuve e2e : update repo → projet consommateur → viewer + backlog OK ~2h @epic:dx
+[P2][todo] Trancher le statut de backlog.html (SA14) — versionné/commité OU local ignoré (.gitignore) ; appliquer au template + workflow ~1h @epic:core
+[P2][todo] Garde-fou DEV contre backlog vide périmé (SA15) — si le backlog ressemble au template/est vide alors que le PO a annoncé des tickets : git status/log, fetch/merge, challenger avant « rien à dépiler » ~1h @epic:core
+[P3][todo] Aide-mémoire git dans bin/po et bin/dev + sync local (SA16) — pull au démarrage, bannière commit+merge avant sortie, trap EXIT du WIP non commité, évaluer bin/sync ~2h @epic:dx
+[P2][todo] Section terminés en bas du viewer (SA17) — sortir les done du flux, section dédiée triée par date de clôture ~1.5h @epic:dx
+[P1][todo] Nettoyage sûr des branches et worktrees (SA18) — avant toute suppression, git log main..branche ; si non vide STOP + surfacer ; ne retirer que le worktree ~2h @epic:core
+[P2][todo] Pré-sync repo→hub : rendre dev/backlog.md lossless (SA19) — porter ici les tickets hub-only (ci-dessus) ; vérifier le mapping de convention ; ajouter au DEV.md le garde-fou changelog atomique (RUNLOG commité avec le code) ~2h @epic:core
+[P1][todo] Garde-fou anti-fuite : le backlog atlas ne doit JAMAIS finir dans le livrable (SA20) — sync strictement repo→hub en lecture seule ; kit/ et example/ neutres ; check make-release.sh qui échoue si marqueurs atlas (#infra, IP, domaine) ~1.5h @epic:core
+
 [wishlist][done] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h =0.5h @epic:core
 [wishlist][todo] Publier le viewer en ligne en une commande — exploiter le hook publish de CONFIG.md ~2h @epic:dx
