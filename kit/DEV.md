@@ -54,7 +54,9 @@ Pas de blocage dur : tu n'attends pas que le PO réponde pour continuer à avanc
 
 - **Git** : branche par session, worktree dédié (`bin/dev`), merge **validé par l'humain** — tout le protocole dans `WORKFLOW.md`.
 - **Branche par session** + relecture du diff avant de fusionner (secrets, cohérence, restes de debug).
-- **Doc à jour dans la même tâche** : ce que tu apprends/changes se note, sinon c'est perdu.
+- **Doc & journal dans le même commit** : ce que tu apprends/changes se note **dans la même tâche**, et
+  le journal/changelog (notes de session, RUNLOG, CHANGELOG) est **commité avec le code qu'il décrit** —
+  jamais dans un commit séparé qui peut diverger ou se perdre. Un changement = son explication, atomiquement.
 - **Édition atomique** du backlog (le PO écrit dans le même fichier).
 - **Statuts honnêtes** : si un test échoue, le ticket n'est pas `done`.
 
