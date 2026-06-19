@@ -130,17 +130,32 @@ def render(epics, tickets) -> str:
     generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     # Regroupement par epic (ordre : epics déclarés, puis "sans epic").
-    groups: list[tuple[str, str, list]] = []
-    for eid in list(epics):
-        items = sorted([t for t in tickets if t["epic"] == eid], key=prio_key)
-        if items:
-            groups.append((eid, epics[eid]["title"], items))
-    orphans = sorted([t for t in tickets if t["epic"] not in epics], key=prio_key)
-    if orphans:
-        groups.append(("", "", orphans))
+    def _groups(subset):
+        gs: list[tuple[str, str, list]] = []
+        for eid in list(epics):
+            items = sorted([t for t in subset if t["epic"] == eid], key=prio_key)
+            if items:
+                gs.append((eid, epics[eid]["title"], items))
+        orphans = sorted([t for t in subset if t["epic"] not in epics], key=prio_key)
+        if orphans:
+            gs.append(("", "", orphans))
+        return gs
+
+    # Tickets actifs d'abord ; les « done » sortent du flux vers une section dédiée en bas
+    # (SA17). Faute de date de clôture dans le format, la section suit le tri commun (epic+prio).
+    active_groups = _groups([t for t in tickets if t["state"] != "done"])
+    done_groups = _groups([t for t in tickets if t["state"] == "done"])
+    groups = active_groups + done_groups
+    n_active = len(active_groups)
+    n_done = sum(1 for t in tickets if t["state"] == "done")
 
     cards = []
-    for eid, etitle, items in groups:
+    for gi, (eid, etitle, items) in enumerate(groups):
+        if gi == n_active and done_groups:
+            cards.append(
+                '<h2 class="epic section-done">Terminés '
+                f'<span class="epic-id">{n_done} clos</span></h2>'
+            )
         if eid:
             cards.append(
                 f'<h2 class="epic">{html.escape(etitle)} '
@@ -255,6 +270,7 @@ TEMPLATE = """<!doctype html>
   .epic {{ font-size:15px; color:var(--dim); margin:26px 0 10px; font-weight:600;
     text-transform:uppercase; letter-spacing:.04em; }}
   .epic-id {{ font-weight:400; opacity:.6; font-size:12px; }}
+  .section-done {{ margin-top:34px; border-top:1px solid var(--line); padding-top:8px; color:var(--done); }}
   .card {{ background:var(--card); border:1px solid var(--line); border-radius:10px;
     padding:12px 14px; margin:8px 0; }}
   .head {{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }}
