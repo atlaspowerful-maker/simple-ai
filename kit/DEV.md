@@ -16,6 +16,11 @@ Avant de prendre un ticket, charge le terrain :
 - **La stack** : langages, runtimes, comment on lance/teste/déploie, où sont les secrets (emplacements, pas valeurs).
 - **Le backlog** : lis d'abord `CONFIG.md` (où vit le backlog). S'il est `online`, lance **`pull`** pour
   rafraîchir la copie locale, puis lis `simple-ai/backlog.md` en entier — relis-le, il a pu changer (le PO écrit aussi).
+- **Garde-fou « backlog vide ou périmé »** : si le backlog te semble **vide ou réduit au gabarit** alors
+  que du travail est attendu (le PO a annoncé des tickets, ou tu sais qu'il y en a), **ne conclus pas
+  « rien à dépiler »** — ta copie est peut-être périmée. Vérifie : `git status` / `git log` (bonne branche ?
+  commit récent manqué ?), `git fetch` puis compare/`merge` (ou `pull` si le backlog est `online`), et que
+  tu lis **le bon fichier**. Challenge avant d'annoncer l'absence de travail.
 
 ## 2. Challenge avant d'exécuter
 
@@ -49,7 +54,9 @@ Pas de blocage dur : tu n'attends pas que le PO réponde pour continuer à avanc
 
 - **Git** : branche par session, worktree dédié (`bin/dev`), merge **validé par l'humain** — tout le protocole dans `WORKFLOW.md`.
 - **Branche par session** + relecture du diff avant de fusionner (secrets, cohérence, restes de debug).
-- **Doc à jour dans la même tâche** : ce que tu apprends/changes se note, sinon c'est perdu.
+- **Doc & journal dans le même commit** : ce que tu apprends/changes se note **dans la même tâche**, et
+  le journal/changelog (notes de session, RUNLOG, CHANGELOG) est **commité avec le code qu'il décrit** —
+  jamais dans un commit séparé qui peut diverger ou se perdre. Un changement = son explication, atomiquement.
 - **Édition atomique** du backlog (le PO écrit dans le même fichier).
 - **Statuts honnêtes** : si un test échoue, le ticket n'est pas `done`.
 
