@@ -80,7 +80,8 @@
   > Fait (DEV) : choix (c) — example/README.md documente que demo-todo/simple-ai/ est un snapshot du kit (ne pas éditer à la main, resync depuis kit/). Zéro machinerie, garde-fou « simple » respecté.
 
 [P1][todo] Boucle git locale et multi-worktrees (SA12) — séquence canonique pull→relire→éditer atomiquement→build→commit→push→merge ff-only ; cycle court par session ; l'atomicité fichier ne propage rien entre worktrees ~3h @epic:core
-[P2][todo] Vérifier le redéploiement après MAJ du framework (SA13) — preuve e2e : update repo → projet consommateur → viewer + backlog OK ~2h @epic:dx
+[P2][done] Vérifier le redéploiement après MAJ du framework (SA13) — preuve e2e : update repo → projet consommateur → viewer + backlog OK ~2h =1h @epic:dx
+  > Fait (DEV) : test e2e en bac à sable — déploiement initial (viewer 3 tickets OK), puis MAJ. Constat : une MAJ par ré-extraction BRUTE de l'archive écrase les données projet (backlog.md/PROJECT.md/CONFIG.md) → 3 tickets deviennent 0. La MAJ SÉLECTIVE (ré-extraire en excluant ces 3 fichiers) préserve les données ET met les outils à jour (viewer 3 tickets OK). Redéploiement OK ; procédure de MAJ à border → friction ci-dessous.
 [P2][todo] Trancher le statut de backlog.html (SA14) — versionné/commité OU local ignoré (.gitignore) ; appliquer au template + workflow ~1h @epic:core
 [P2][done] Garde-fou DEV contre backlog vide périmé (SA15) — si le backlog ressemble au template/est vide alors que le PO a annoncé des tickets : git status/log, fetch/merge, challenger avant « rien à dépiler » ~1h =0.5h @epic:core
   > Fait (DEV) : DEV.md §1 (context-loading) gagne un garde-fou « backlog vide/périmé » — ne pas conclure « rien à dépiler » sans vérifier git status/log, fetch, la branche, le bon fichier (ou pull si online). Générique, livrable public. Né d'un cas réel : un backlog d'apparence vide alors que les tickets vivaient ailleurs.
@@ -94,6 +95,9 @@
   > Fait (DEV) : make-release.sh scanne le CONTENU de l'archive (= kit/) — motifs génériques (IP, email) + .release-denylist locale gitignorée pour les marqueurs propres au projet (ex. « atlas ») ; toute correspondance → release refusée (exit 1) + zip supprimé. Prouvé : kit/ neutre passe (14 fichiers), marqueur injecté échoue, denylist non versionnée. kit/ et example/ vérifiés neutres.
   > Note (DEV) : « #infra » écarté comme marqueur — présent légitimement dans kit/CONVENTION.md (exemple de tag) → faux positif. D'où scan du contenu réel + denylist curée, pas de liste figée.
   > Reste hors-repo : le volet « sync repo→hub en lecture seule » vit dans l'outillage du hub (hors de ce repo public) — non traité ici. SA20 livre le filet côté release ; durcir le sens du sync côté hub = ticket séparé si besoin.
+
+[P2][todo] MAJ du framework sans écraser les données projet (friction SA13) — re-déposer simple-ai/ par ré-extraction brute écrase backlog.md/PROJECT.md/CONFIG.md (perte silencieuse) ; documenter une MAJ qui ne touche QUE les outils/playbooks, ou l'outiller ~1.5h @epic:dx
+  > Né de SA13 : 3 tickets projet → 0 après ré-extraction. Contournement prouvé : unzip -o -x 'simple-ai/backlog.md' 'simple-ai/PROJECT.md' 'simple-ai/CONFIG.md'. Reco (rester simple) : section « Mettre à jour simple-ai » dans README/init.md ; éventuel `uvx simple-ai update` plus tard. Note : `uvx simple-ai init` est idempotent (ne clobber pas) mais ne met donc PAS à jour les outils → ce n'est pas un chemin de MAJ. Prio à confirmer (perte de données → candidat P1).
 
 [wishlist][done] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h =0.5h @epic:core
 [wishlist][todo] Publier le viewer en ligne en une commande — exploiter le hook publish de CONFIG.md ~2h @epic:dx
