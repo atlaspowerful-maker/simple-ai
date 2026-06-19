@@ -13,3 +13,6 @@ simple-ai.zip
 
 # Viewer généré du dogfood (régénéré à la demande)
 dev/backlog.html
+
+# Denylist locale du garde-fou anti-fuite de make-release.sh (marqueurs internes, SA20)
+.release-denylist

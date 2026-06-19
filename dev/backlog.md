@@ -87,7 +87,10 @@
 [P2][todo] Section terminés en bas du viewer (SA17) — sortir les done du flux, section dédiée triée par date de clôture ~1.5h @epic:dx
 [P1][todo] Nettoyage sûr des branches et worktrees (SA18) — avant toute suppression, git log main..branche ; si non vide STOP + surfacer ; ne retirer que le worktree ~2h @epic:core
 [P2][todo] Pré-sync repo→hub : rendre dev/backlog.md lossless (SA19) — porter ici les tickets hub-only (ci-dessus) ; vérifier le mapping de convention ; ajouter au DEV.md le garde-fou changelog atomique (RUNLOG commité avec le code) ~2h @epic:core
-[P1][todo] Garde-fou anti-fuite : le backlog atlas ne doit JAMAIS finir dans le livrable (SA20) — sync strictement repo→hub en lecture seule ; kit/ et example/ neutres ; check make-release.sh qui échoue si marqueurs atlas (#infra, IP, domaine) ~1.5h @epic:core
+[P1][done] Garde-fou anti-fuite : le backlog atlas ne doit JAMAIS finir dans le livrable (SA20) — sync strictement repo→hub en lecture seule ; kit/ et example/ neutres ; check make-release.sh qui échoue si marqueurs atlas (#infra, IP, domaine) ~1.5h =1h @epic:core
+  > Fait (DEV) : make-release.sh scanne le CONTENU de l'archive (= kit/) — motifs génériques (IP, email) + .release-denylist locale gitignorée pour les marqueurs propres au projet (ex. « atlas ») ; toute correspondance → release refusée (exit 1) + zip supprimé. Prouvé : kit/ neutre passe (14 fichiers), marqueur injecté échoue, denylist non versionnée. kit/ et example/ vérifiés neutres.
+  > Note (DEV) : « #infra » écarté comme marqueur — présent légitimement dans kit/CONVENTION.md (exemple de tag) → faux positif. D'où scan du contenu réel + denylist curée, pas de liste figée.
+  > Reste hors-repo : le volet « sync repo→hub en lecture seule » vit dans l'outillage du hub (hors de ce repo public) — non traité ici. SA20 livre le filet côté release ; durcir le sens du sync côté hub = ticket séparé si besoin.
 
 [wishlist][done] Calibration par priorité/taille, pas seulement globale — affiner SA11 ~2h =0.5h @epic:core
 [wishlist][todo] Publier le viewer en ligne en une commande — exploiter le hook publish de CONFIG.md ~2h @epic:dx
