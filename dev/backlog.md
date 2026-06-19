@@ -82,7 +82,8 @@
 [P1][todo] Boucle git locale et multi-worktrees (SA12) — séquence canonique pull→relire→éditer atomiquement→build→commit→push→merge ff-only ; cycle court par session ; l'atomicité fichier ne propage rien entre worktrees ~3h @epic:core
 [P2][todo] Vérifier le redéploiement après MAJ du framework (SA13) — preuve e2e : update repo → projet consommateur → viewer + backlog OK ~2h @epic:dx
 [P2][todo] Trancher le statut de backlog.html (SA14) — versionné/commité OU local ignoré (.gitignore) ; appliquer au template + workflow ~1h @epic:core
-[P2][todo] Garde-fou DEV contre backlog vide périmé (SA15) — si le backlog ressemble au template/est vide alors que le PO a annoncé des tickets : git status/log, fetch/merge, challenger avant « rien à dépiler » ~1h @epic:core
+[P2][done] Garde-fou DEV contre backlog vide périmé (SA15) — si le backlog ressemble au template/est vide alors que le PO a annoncé des tickets : git status/log, fetch/merge, challenger avant « rien à dépiler » ~1h =0.5h @epic:core
+  > Fait (DEV) : DEV.md §1 (context-loading) gagne un garde-fou « backlog vide/périmé » — ne pas conclure « rien à dépiler » sans vérifier git status/log, fetch, la branche, le bon fichier (ou pull si online). Générique, livrable public. Né d'un cas réel : un backlog d'apparence vide alors que les tickets vivaient ailleurs.
 [P3][todo] Aide-mémoire git dans bin/po et bin/dev + sync local (SA16) — pull au démarrage, bannière commit+merge avant sortie, trap EXIT du WIP non commité, évaluer bin/sync ~2h @epic:dx
 [P2][todo] Section terminés en bas du viewer (SA17) — sortir les done du flux, section dédiée triée par date de clôture ~1.5h @epic:dx
 [P1][done] Nettoyage sûr des branches et worktrees (SA18) — avant toute suppression, git log main..branche ; si non vide STOP + surfacer ; ne retirer que le worktree ~2h =0.5h @epic:core

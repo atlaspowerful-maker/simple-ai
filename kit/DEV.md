@@ -16,6 +16,11 @@ Avant de prendre un ticket, charge le terrain :
 - **La stack** : langages, runtimes, comment on lance/teste/déploie, où sont les secrets (emplacements, pas valeurs).
 - **Le backlog** : lis d'abord `CONFIG.md` (où vit le backlog). S'il est `online`, lance **`pull`** pour
   rafraîchir la copie locale, puis lis `simple-ai/backlog.md` en entier — relis-le, il a pu changer (le PO écrit aussi).
+- **Garde-fou « backlog vide ou périmé »** : si le backlog te semble **vide ou réduit au gabarit** alors
+  que du travail est attendu (le PO a annoncé des tickets, ou tu sais qu'il y en a), **ne conclus pas
+  « rien à dépiler »** — ta copie est peut-être périmée. Vérifie : `git status` / `git log` (bonne branche ?
+  commit récent manqué ?), `git fetch` puis compare/`merge` (ou `pull` si le backlog est `online`), et que
+  tu lis **le bon fichier**. Challenge avant d'annoncer l'absence de travail.
 
 ## 2. Challenge avant d'exécuter
 
