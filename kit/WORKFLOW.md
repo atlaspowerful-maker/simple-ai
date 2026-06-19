@@ -57,11 +57,25 @@ Un ticket en cours = une branche. Pas de fourre-tout multi-sujets sur une branch
   - **Local seul** → une **revue avant merge** : relis `git diff main...<branche>`, puis `merge` dans `main`.
 - **Conflit** = du travail d'une autre session : **lire, intégrer les deux, ne jamais écraser**.
 
-## 5. Après le merge
+## 5. Après le merge — nettoyage SÛR
+
+**On ne supprime jamais à l'aveugle.** Une branche ou un worktree peut porter des commits non
+intégrés (merge partiel, oubli) ; les perdre est silencieux. Retirer le *worktree* est sûr — les
+commits restent sur la branche ; c'est la suppression de la *branche* qu'il faut garder.
 
 ```
-git worktree remove ../<repo>-<role>     # retire le worktree de la session
-git branch -d session/AAAA-MM-JJ-<sujet> # supprime la branche fusionnée
+# 1. Garde-fou : reste-t-il des commits hors de main ?
+git log --oneline main..session/AAAA-MM-JJ-<sujet>
+#   vide      → rien d'orphelin : nettoyage sûr.
+#   non-vide  → STOP. Ces commits ne sont PAS dans main : surface-les et intègre/sauvegarde
+#               AVANT toute suppression.
+
+# 2. Retire le worktree (git refuse s'il reste des modifs non commitées) :
+git worktree remove ../<repo>-<role>
+
+# 3. Supprime la branche — `-d` REFUSE une branche non fusionnée (filet natif).
+#    Ne force JAMAIS avec `-D` sans avoir lu le garde-fou de l'étape 1.
+git branch -d session/AAAA-MM-JJ-<sujet>
 ```
 
 Puis passe le ticket `done` (+ `push`/`publish` si le backlog est `online`, cf. `CONFIG.md`).
